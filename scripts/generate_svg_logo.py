@@ -13,8 +13,8 @@ text_val = crop.max()
 threshold = bg_val + (text_val - bg_val) * 0.45
 
 fig, ax = plt.subplots(figsize=(10, 4))
-# origin='upper' so (0,0) is top-left
-cs = ax.contour(crop, levels=[threshold], origin='upper')
+# Default orientation maps rows to Y (0 at top, H at bottom) matching SVG
+cs = ax.contour(crop, levels=[threshold])
 
 path_strs = []
 h, w = crop.shape
@@ -43,8 +43,8 @@ interface RaffiniLogoSvgProps extends React.SVGProps<SVGSVGElement> {
 }
 
 /**
- * 1:1 Vector SVG representation of the original RAFFINI brand logo.
- * Precision-extracted from official brand typography.
+ * 1:1 Vector SVG representation of the official RAFFINI brand logo.
+ * Precision-extracted from official brand typography. Upright and razor-sharp.
  */
 export function RaffiniLogoSvg({
   color = '#FAE9D7',
@@ -77,4 +77,4 @@ tsx_content = template.replace('__WIDTH__', str(w)).replace('__HEIGHT__', str(h)
 with open('src/components/RaffiniLogoSvg.tsx', 'w', encoding='utf-8') as f:
     f.write(tsx_content)
 
-print("Saved src/components/RaffiniLogoSvg.tsx successfully!")
+print("Saved upright src/components/RaffiniLogoSvg.tsx successfully!")
