@@ -13,7 +13,10 @@ const GROUP_OR_ADMIN_IDS = (
   .filter(Boolean);
 
 async function sendTg(chatId: string | number, text: string, replyMarkup?: any) {
-  if (!BOT_TOKEN) return null;
+  if (!BOT_TOKEN) {
+    console.error('sendTg: TELEGRAM_BOT_TOKEN is missing');
+    return { ok: false, error: 'TELEGRAM_BOT_TOKEN is missing' };
+  }
   try {
     const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -25,10 +28,28 @@ async function sendTg(chatId: string | number, text: string, replyMarkup?: any) 
         reply_markup: replyMarkup,
       }),
     });
-    return await res.json();
+    const data = await res.json();
+    if (data.ok) return data;
+
+    console.warn(`sendTg failed for chatId ${chatId}:`, data);
+
+    // If reply_markup or button scheme caused failure (e.g. invalid URL), fallback to plain text message
+    if (replyMarkup) {
+      const fallbackRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text,
+          parse_mode: 'HTML',
+        }),
+      });
+      return await fallbackRes.json();
+    }
+    return data;
   } catch (err) {
     console.error('Error sending TG:', err);
-    return null;
+    return { ok: false, error: String(err) };
   }
 }
 
@@ -72,26 +93,21 @@ ${order.notes ? `📝 <b>Izoh:</b> <i>${order.notes}</i>\n` : ''}⏰ <b>Vaqt:</b
 ⏳ <b>Holati:</b> 🟡 <i>Kutilmoqda</i>
     `.trim();
 
-    // Inline buttons for group management
-    const rawPhone = order.customerPhone.replace(/[\s\(\)-]/g, '');
+    // Inline buttons for group management (Only valid http:// or tg:// URLs allowed by Telegram API)
     const tgUserId = order.telegramUserId || '';
 
     const groupKeyboard = {
       inline_keyboard: [
-        [
-          {
-            text: `📞 Tel: ${order.customerPhone}`,
-            url: `tel:${rawPhone}`,
-          },
-          ...(tgUserId
-            ? [
+        ...(tgUserId
+          ? [
+              [
                 {
-                  text: '👤 Telegram Profil',
+                  text: '👤 Telegram Profiliga yozish',
                   url: `tg://user?id=${tgUserId}`,
                 },
-              ]
-            : []),
-        ],
+              ],
+            ]
+          : []),
         [
           {
             text: '✅ Qabul qilish',
@@ -110,15 +126,18 @@ ${order.notes ? `📝 <b>Izoh:</b> <i>${order.notes}</i>\n` : ''}⏰ <b>Vaqt:</b
     };
 
     // 1. Send to all configured groups / channels / admins
+    const deliveryResults: any[] = [];
     if (BOT_TOKEN && GROUP_OR_ADMIN_IDS.length > 0) {
       for (const targetChatId of GROUP_OR_ADMIN_IDS) {
-        await sendTg(targetChatId, groupMessage, groupKeyboard);
+        const res = await sendTg(targetChatId, groupMessage, groupKeyboard);
+        deliveryResults.push({ targetChatId, res });
       }
     } else {
       console.warn('TELEGRAM_GROUP_ID or TELEGRAM_ADMIN_CHAT_ID is not set in environment variables');
     }
 
     // 2. Send confirmation to the customer's personal Telegram chat
+    let customerResult = null;
     if (BOT_TOKEN && order.telegramUserId) {
       const customerMsg = `
 ✨ <b>Hurmatli ${order.customerName}!</b>
@@ -134,10 +153,16 @@ Operatorlarimiz buyurtmani tasdiqlash uchun tez orada bog‘lanishadi.
 RAFFINI brendini tanlaganingiz uchun tashakkur! 👔
       `.trim();
 
-      await sendTg(order.telegramUserId, customerMsg);
+      customerResult = await sendTg(order.telegramUserId, customerMsg);
     }
 
-    return NextResponse.json({ ok: true, orderId: order.id });
+    return NextResponse.json({
+      ok: true,
+      orderId: order.id,
+      configuredGroups: GROUP_OR_ADMIN_IDS,
+      deliveryResults,
+      customerResult,
+    });
   } catch (error) {
     console.error('Order API error:', error);
     return NextResponse.json({ ok: false, error: 'Internal server error' }, { status: 500 });
