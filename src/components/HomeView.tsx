@@ -74,7 +74,7 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
         </h1>
       </div>
 
-      {/* 3. Category Selector Pills */}
+      {/* 3. Category Selector Pills with Fluid Spring Animation */}
       <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5">
         {CATEGORIES.map((cat) => {
           const isActive = selectedCat === cat;
@@ -86,13 +86,22 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
                 setSelectedCat(cat);
               }}
               className={cn(
-                "px-5 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200",
+                "relative px-5 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors duration-200 select-none",
                 isActive
-                  ? "bg-[#1A1F33] text-[#FAE9D7] font-semibold shadow-sm"
-                  : "bg-transparent text-[#1A1F33]/70 border border-[#1A1F33]/15 hover:border-[#1A1F33]/40"
+                  ? "text-[#FAE9D7] font-semibold"
+                  : "text-[#1A1F33]/70 border border-[#1A1F33]/15 hover:border-[#1A1F33]/40"
               )}
             >
-              {cat === 'Barchasi' ? 'Erkaklar' : cat}
+              {isActive && (
+                <motion.div
+                  layoutId="homeCategoryPill"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  className="absolute inset-0 bg-[#1A1F33] rounded-full shadow-sm"
+                />
+              )}
+              <span className="relative z-10">
+                {cat === 'Barchasi' ? 'Erkaklar' : cat}
+              </span>
             </button>
           );
         })}
@@ -129,12 +138,13 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
               key={product.id}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -3 }}
               transition={{ duration: 0.35, delay: Math.min(idx * 0.04, 0.3) }}
               onClick={() => {
                 triggerHaptic('light');
                 setSelectedProduct(product);
               }}
-              className="cursor-pointer group flex flex-col bg-white rounded-[24px] p-2.5 pb-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/[0.04] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] active:scale-[0.98] transition-all justify-between"
+              className="cursor-pointer group flex flex-col bg-white rounded-[24px] p-2.5 pb-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/[0.04] hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] active:scale-[0.98] transition-all justify-between"
             >
               {/* Product Photo Container */}
               <div
@@ -152,15 +162,17 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
                   priority={idx < 4}
                 />
 
-                {/* Floating Heart Button */}
-                <button
+                {/* Floating Heart Button with Spring Pop */}
+                <motion.button
+                  whileTap={{ scale: 1.4 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 15 }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    triggerHaptic('light');
+                    triggerHaptic('medium');
                     toggleWishlist(product.id);
                   }}
                   aria-label="Sevimlilar"
-                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#1A1F33] hover:text-rose-500 shadow-sm active:scale-90 transition"
+                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#1A1F33] hover:text-rose-500 shadow-sm transition"
                 >
                   <Heart
                     className={cn(
@@ -168,7 +180,7 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
                       liked ? "fill-rose-500 text-rose-500" : "stroke-[1.8]"
                     )}
                   />
-                </button>
+                </motion.button>
 
                 {/* Discount Badge */}
                 {product.discountPercent && product.discountPercent > 0 && (

@@ -29,7 +29,7 @@ const RECENT_ACTIVITIES: ToastData[] = [
     product: 'Raffini Tabiiy Teri Poyabzal',
     branch: 'Mega Planet filiali',
     time: '5 daqiqa oldin',
-    image: '/images/products/prod_10.jpg',
+    image: '/images/products/prod_27.jpg',
   },
   {
     id: '3',
@@ -37,7 +37,7 @@ const RECENT_ACTIVITIES: ToastData[] = [
     product: 'Italiya Uslubidagi Kostyum-Shim',
     branch: 'Golden Life filiali',
     time: '8 daqiqa oldin',
-    image: '/images/products/prod_20.jpg',
+    image: '/images/products/prod_76.jpg',
   },
   {
     id: '4',
@@ -45,7 +45,7 @@ const RECENT_ACTIVITIES: ToastData[] = [
     product: 'Eksklyuziv Ikki Qismli To‘plam',
     branch: 'Kuryer orqali',
     time: '12 daqiqa oldin',
-    image: '/images/products/prod_7.jpg',
+    image: '/images/products/prod_19.jpg',
   },
 ];
 
@@ -87,7 +87,7 @@ export function LiveBoutiqueToast() {
   }, [currentToast]);
 
   return (
-    <div className="fixed bottom-22 left-4 z-30 pointer-events-none select-none max-w-[320px]">
+    <div className="fixed bottom-24 left-4 z-30 pointer-events-none select-none max-w-[320px]">
       <AnimatePresence>
         {currentToast && !isDismissed && (
           <motion.div

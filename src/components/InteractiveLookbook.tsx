@@ -87,12 +87,14 @@ export function InteractiveLookbook() {
               style={{ left: spot.x, top: spot.y }}
               className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
             >
-              {/* Concentric Pulse Ring */}
-              <span className="absolute -inset-2 rounded-full bg-white/40 animate-ping pointer-events-none" />
+              {/* Dual Concentric Pulse Rings for Ultra-Luxury Radar Feel */}
+              <span className="absolute -inset-2.5 rounded-full bg-white/35 animate-ping pointer-events-none" />
+              <span className="absolute -inset-1 rounded-full bg-[#FAE9D7]/60 animate-pulse pointer-events-none" />
 
               {/* Pin Button */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.15 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   triggerHaptic('light');
@@ -100,14 +102,14 @@ export function InteractiveLookbook() {
                 }}
                 aria-label={spot.label}
                 className={cn(
-                  "relative w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-lg",
+                  "relative w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-[0_4px_15px_rgba(0,0,0,0.3)]",
                   isActive
                     ? "bg-[#1A1F33] text-[#FAE9D7] scale-110"
-                    : "bg-white text-[#1A1F33] hover:scale-110"
+                    : "bg-white text-[#1A1F33]"
                 )}
               >
                 {isActive ? (
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3.5 h-3.5 stroke-[2.5]" />
                 ) : (
                   <Plus className="w-4 h-4 stroke-[2.5]" />
                 )}

@@ -98,15 +98,20 @@ export function SplashView({ onStart }: SplashViewProps) {
 
           {/* Bottom Circle Action Button (Matching Reference Screen 1) */}
           <div className="relative z-20 pb-12 flex flex-col items-center">
-            <motion.button
-              whileTap={{ scale: 0.92 }}
-              whileHover={{ scale: 1.05 }}
-              onClick={handleStart}
-              aria-label="Xaridni boshlash"
-              className="w-16 h-16 rounded-full bg-white text-[#1A1F33] shadow-[0_10px_35px_rgba(0,0,0,0.5)] flex items-center justify-center transition-transform group cursor-pointer border-4 border-white/30"
-            >
-              <ArrowRight className="w-6 h-6 stroke-[2.5] text-[#1A1F33] group-hover:translate-x-0.5 transition-transform" />
-            </motion.button>
+            <div className="relative">
+              {/* Subtle Pulsing Aura Ring */}
+              <span className="absolute -inset-2 rounded-full bg-white/20 animate-ping pointer-events-none" />
+
+              <motion.button
+                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: 1.05 }}
+                onClick={handleStart}
+                aria-label="Xaridni boshlash"
+                className="relative w-16 h-16 rounded-full bg-white text-[#1A1F33] shadow-[0_12px_40px_rgba(0,0,0,0.6)] flex items-center justify-center transition-transform group cursor-pointer border-4 border-white/30"
+              >
+                <ArrowRight className="w-6 h-6 stroke-[2.5] text-[#1A1F33] group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+            </div>
           </div>
         </div>
       </motion.div>

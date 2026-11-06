@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { ChevronLeft, Heart, Check } from 'lucide-react';
 import { Product } from '@/types';
 import { useStore } from '@/context/StoreContext';
@@ -28,13 +29,21 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
   const images = product.images.length > 0 ? product.images : ['/images/logo.png'];
 
   const handleAddToCart = () => {
-    triggerHaptic('medium');
+    triggerHaptic('success');
     addToCart(product, selectedSize, selectedColor, 1);
     setIsAdded(true);
+    try {
+      confetti({
+        particleCount: 35,
+        spread: 55,
+        origin: { y: 0.85 },
+        colors: ['#1A1F33', '#FAE9D7', '#E2C7A7'],
+      });
+    } catch (e) {}
     setTimeout(() => {
       setIsAdded(false);
       onClose();
-    }, 1200);
+    }, 1000);
   };
 
   // Color mapping helper for visual swatches
@@ -164,8 +173,9 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     {product.sizes.map((size) => {
                       const isSelected = selectedSize === size;
                       return (
-                        <button
+                        <motion.button
                           key={size}
+                          whileTap={{ scale: 0.88 }}
                           onClick={() => {
                             triggerHaptic('selection');
                             setSelectedSize(size);
@@ -178,7 +188,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                           )}
                         >
                           {size}
-                        </button>
+                        </motion.button>
                       );
                     })}
                   </div>
@@ -194,8 +204,9 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                       const isSelected = selectedColor === color;
                       const hex = getColorHex(color);
                       return (
-                        <button
+                        <motion.button
                           key={color}
+                          whileTap={{ scale: 0.88 }}
                           onClick={() => {
                             triggerHaptic('selection');
                             setSelectedColor(color);
@@ -217,7 +228,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                               )}
                             />
                           )}
-                        </button>
+                        </motion.button>
                       );
                     })}
                   </div>

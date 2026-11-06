@@ -70,7 +70,9 @@ export function Navbar({ onSearchClick, onBranchesClick }: NavbarProps) {
           >
             <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
             {cartCount > 0 && (
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#1A1F33] ring-2 ring-[#FBF8F3]" />
+              <span className="absolute top-1.5 right-1 min-w-[15px] h-[15px] px-1 rounded-full bg-[#1A1F33] text-[#FAE9D7] text-[9px] font-black flex items-center justify-center ring-2 ring-[#FBF8F3] animate-pulse shadow-sm">
+                {cartCount}
+              </span>
             )}
           </button>
         </div>
