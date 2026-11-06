@@ -3,7 +3,7 @@ import { Product } from '@/types';
 export const RAFFINI_PRODUCTS: Product[] = [
   {
     "id": "raffini_1",
-    "title": "Raffini Premial Qishki/Kuzgi Kurtka #1",
+    "title": "Raffini Premial Kurtka #1",
     "category": "Kurtkalar & Vitirovka",
     "price": 850000,
     "oldPrice": 1060000,
@@ -35,8 +35,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_2",
-    "title": "Raffini Premial Charm Poyabzal #2",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #2",
+    "category": "Kurtkalar & Vitirovka",
     "price": 200000,
     "oldPrice": 250000,
     "discountPercent": 20,
@@ -47,18 +47,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Kurtka — 1.200.000 so‘m\n👕 Futbolka — 295.000 so‘m\n👖 Shim — 500.000 so‘m\n👞 Oyoq kiyim — 1.080.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52\n\n🏢 RAFFINI — Toshkent shahri bo‘yicha 11 ta filial\n📅 2025-yilda RAFFINI brendiga asos solingan\n👤 Asoschi: @komoliddin_raffini",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 31,
@@ -68,7 +67,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_3",
-    "title": "Raffini Premial Qishki/Kuzgi Kurtka #3",
+    "title": "Raffini Premial Kurtka #3",
     "category": "Kurtkalar & Vitirovka",
     "price": 950000,
     "oldPrice": 1180000,
@@ -100,8 +99,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_4",
-    "title": "Raffini Premial Charm Poyabzal #4",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #4",
+    "category": "Kurtkalar & Vitirovka",
     "price": 850000,
     "oldPrice": 1060000,
     "discountPercent": 20,
@@ -112,18 +111,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Kurtka — 850.000 so‘m\n👕 Futbolka — 295.000 so‘m\n👖 Shim — 400.000 so‘m\n👞 Oyoq kiyim — 650.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52\n\n🏢 RAFFINI — Toshkent shahri bo‘yicha 11 ta filial\n📅 2025-yilda RAFFINI brendiga asos solingan\n👤 Asoschi: @komoliddin_raffini",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 45,
@@ -133,7 +131,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_5",
-    "title": "Raffini Premial Charm Poyabzal #5",
+    "title": "Raffini Tabiiy Charm Poyabzal #5",
     "category": "Oyoq kiyimlar",
     "price": 850000,
     "oldPrice": 1050000,
@@ -166,7 +164,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_6",
-    "title": "Raffini Premial Charm Poyabzal #6",
+    "title": "Raffini Tabiiy Charm Poyabzal #6",
     "category": "Oyoq kiyimlar",
     "price": 850000,
     "oldPrice": 1050000,
@@ -199,7 +197,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_7",
-    "title": "Raffini Ikki Qismli Eksklyuziv To‘plam #7",
+    "title": "Raffini Eksklyuziv To‘plam #7",
     "category": "To‘plamlar",
     "price": 850000,
     "oldPrice": 1060000,
@@ -231,7 +229,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_8",
-    "title": "Raffini Ikki Qismli Eksklyuziv To‘plam #8",
+    "title": "Raffini Eksklyuziv To‘plam #8",
     "category": "To‘plamlar",
     "price": 280000,
     "oldPrice": 350000,
@@ -262,7 +260,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_9",
-    "title": "Raffini Ikki Qismli Eksklyuziv To‘plam #9",
+    "title": "Raffini Eksklyuziv To‘plam #9",
     "category": "To‘plamlar",
     "price": 280000,
     "oldPrice": 350000,
@@ -294,7 +292,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_10",
-    "title": "Raffini Premial Charm Poyabzal #10",
+    "title": "Raffini Tabiiy Charm Poyabzal #10",
     "category": "Oyoq kiyimlar",
     "price": 650000,
     "oldPrice": 810000,
@@ -327,7 +325,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_11",
-    "title": "Raffini Premial Charm Poyabzal #11",
+    "title": "Raffini Tabiiy Charm Poyabzal #11",
     "category": "Oyoq kiyimlar",
     "price": 650000,
     "oldPrice": 810000,
@@ -360,7 +358,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_12",
-    "title": "Raffini Premial Charm Poyabzal #12",
+    "title": "Raffini Tabiiy Charm Poyabzal #12",
     "category": "Oyoq kiyimlar",
     "price": 650000,
     "oldPrice": 810000,
@@ -391,8 +389,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_13",
-    "title": "Raffini Premial Charm Poyabzal #13",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Klassik Kostyum-Shim #13",
+    "category": "Kostyumlar",
     "price": 230000,
     "oldPrice": 280000,
     "discountPercent": 18,
@@ -403,18 +401,18 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n👖 Kostyum shim — 1.230.000 so‘m\n👕 Ko‘ylak — 400.000 so‘m\n👞 Oyoq kiyim — 1.280.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "46",
+      "48",
+      "50",
+      "52",
+      "54",
+      "56"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Midnight Ko‘k",
+      "Klassik Qora",
+      "Kulrang Melanj",
+      "Shokolad Rang"
     ],
     "rating": 4.9,
     "reviewsCount": 108,
@@ -424,8 +422,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_14",
-    "title": "Raffini Premial Charm Poyabzal #14",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Yengil Vitirovka #14",
+    "category": "Kurtkalar & Vitirovka",
     "price": 700000,
     "oldPrice": 870000,
     "discountPercent": 20,
@@ -436,18 +434,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Vitirovka — 700.000 so‘m\n👕 Amerikanka — 400.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.100.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k",
+      "Zaytun Yashil",
+      "Krem"
     ],
     "rating": 4.9,
     "reviewsCount": 115,
@@ -457,8 +454,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_15",
-    "title": "Raffini Premial Charm Poyabzal #15",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Yengil Vitirovka #15",
+    "category": "Kurtkalar & Vitirovka",
     "price": 200000,
     "oldPrice": 250000,
     "discountPercent": 20,
@@ -469,18 +466,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Vitirovka — 1.200.000 so‘m\n🧶 Sviter — 460.000 so‘m\n👖 Shim — 500.000 so‘m\n👞 Oyoq kiyim — 1.150.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k",
+      "Zaytun Yashil",
+      "Krem"
     ],
     "rating": 4.9,
     "reviewsCount": 122,
@@ -490,8 +486,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_16",
-    "title": "Raffini Premial Charm Poyabzal #16",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Yengil Vitirovka #16",
+    "category": "Kurtkalar & Vitirovka",
     "price": 100000,
     "oldPrice": 120000,
     "discountPercent": 17,
@@ -502,18 +498,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Vitirovka — 1.100.000 so‘m\n👕 Futbolka— 2950.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.150.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k",
+      "Zaytun Yashil",
+      "Krem"
     ],
     "rating": 4.9,
     "reviewsCount": 129,
@@ -523,8 +518,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_17",
-    "title": "Raffini Premial Charm Poyabzal #17",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #17",
+    "category": "Kurtkalar & Vitirovka",
     "price": 650000,
     "oldPrice": 810000,
     "discountPercent": 20,
@@ -535,18 +530,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Kurtka — 1.650.000 so‘m\n👕 Oq ko‘ylak — 440.000 so‘m\n🧶 Sviter — 460.000 so‘m\n👖 Shim — 500.000 so‘m\n👞 Oyoq kiyim — 1.200.000 so‘m\n\n📍 Golden life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 136,
@@ -556,8 +550,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_18",
-    "title": "Raffini Premial Charm Poyabzal #18",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Yengil Vitirovka #18",
+    "category": "Kurtkalar & Vitirovka",
     "price": 345000,
     "oldPrice": 430000,
     "discountPercent": 20,
@@ -568,18 +562,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Vitirovka — 1.345.000 so‘m\n👕 Futbolka — 295.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.000.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k",
+      "Zaytun Yashil",
+      "Krem"
     ],
     "rating": 4.9,
     "reviewsCount": 143,
@@ -589,8 +582,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_19",
-    "title": "Raffini Premial Charm Poyabzal #19",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #19",
+    "category": "Kurtkalar & Vitirovka",
     "price": 720000,
     "oldPrice": 900000,
     "discountPercent": 20,
@@ -601,18 +594,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Kurtka — 1.720.000 so‘m\n👕 Futbolka — 295.000 so‘m\n🧶 Kardigan — 530.000 so‘m\n👖 Shim — 500.000 so‘m\n👞 Oyoq kiyim — 1.100.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 150,
@@ -622,8 +614,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_20",
-    "title": "Raffini Premial Charm Poyabzal #20",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Eksklyuziv To‘plam #20",
+    "category": "To‘plamlar",
     "price": 960000,
     "oldPrice": 1200000,
     "discountPercent": 20,
@@ -634,18 +626,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Tepa-past — 1.960.000 so‘m\n👕 Amerikanka — 430.000 so‘m\n👞 Oyoq kiyim — 1.080.000 so‘m\n\n📍Golden Life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Qora Monoxrom",
+      "Zaytun Yashil",
+      "To‘q Ko‘k",
+      "Qumrang"
     ],
     "rating": 4.9,
     "reviewsCount": 157,
@@ -655,7 +646,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_21",
-    "title": "Raffini Premial Charm Poyabzal #21",
+    "title": "Raffini Tabiiy Charm Poyabzal #21",
     "category": "Oyoq kiyimlar",
     "price": 280000,
     "oldPrice": 350000,
@@ -688,8 +679,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_22",
-    "title": "Raffini Premial Charm Poyabzal #22",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #22",
+    "category": "Kurtkalar & Vitirovka",
     "price": 180000,
     "oldPrice": 220000,
     "discountPercent": 18,
@@ -700,18 +691,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Kurtka — 1.180.000 so‘m\n👕 Oq ko‘ylak — 400.000 so‘m\n🧶 Kardigan — 530.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.280.000 so‘m\n\n📍 Golden life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 171,
@@ -721,7 +711,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_23",
-    "title": "Raffini Yumshoq Trikotaj Kardigan #23",
+    "title": "Raffini Trikotaj Kardigan #23",
     "category": "Sviter & Trikotaj",
     "price": 530000,
     "oldPrice": 660000,
@@ -736,14 +726,13 @@ export const RAFFINI_PRODUCTS: Product[] = [
       "M",
       "L",
       "XL",
-      "XXL",
-      "3XL"
+      "XXL"
     ],
     "colors": [
       "Krem Bej",
       "To‘q Kulrang",
-      "Qora",
-      "Qahva Rang"
+      "Klassik Qora",
+      "Qahva"
     ],
     "rating": 4.9,
     "reviewsCount": 178,
@@ -753,8 +742,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_24",
-    "title": "Raffini Premial Charm Poyabzal #24",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Yengil Vitirovka #24",
+    "category": "Kurtkalar & Vitirovka",
     "price": 700000,
     "oldPrice": 870000,
     "discountPercent": 20,
@@ -765,18 +754,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n🧥 Vitirovka — 700.000 so‘m\n👕 Futbolka — 295.000 so‘m\n👖 Shim — 495.000 so‘m\n👞 Oyoq kiyim — 435.000 so‘m\n🧢 Kepka — 175.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k",
+      "Zaytun Yashil",
+      "Krem"
     ],
     "rating": 4.9,
     "reviewsCount": 185,
@@ -786,8 +774,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_25",
-    "title": "Raffini Premial Charm Poyabzal #25",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Eksklyuziv To‘plam #25",
+    "category": "To‘plamlar",
     "price": 0,
     "oldPrice": 0,
     "discountPercent": 0,
@@ -798,18 +786,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum To‘plami 🧥\n\n✨ Yangi to‘liq obrazlar\n\nLook 1\n\n🧥 Vitirovka — 1.000.000 so‘m\n🧶 Kardigan — 580.000 so‘m\n👕 Futbolka — 295.000 so‘m\n👖 Shim — 700.000 so‘m\n👞 Oyoq kiyim — 1.280.000 so‘m\n\nLook 2\n\n🧥 Vitirovka — 1.000.000 so‘m\n👕 Finka — 300.000 so‘m\n👖 Shim — 700.000 so‘m\n👞 Oyoq kiyim — 1.280.000 so‘m\n\n📍 Parking Mol\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Qora Monoxrom",
+      "Zaytun Yashil",
+      "To‘q Ko‘k",
+      "Qumrang"
     ],
     "rating": 4.9,
     "reviewsCount": 192,
@@ -819,8 +806,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_26",
-    "title": "Raffini Premial Charm Poyabzal #26",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Eksklyuziv To‘plam #26",
+    "category": "To‘plamlar",
     "price": 200000,
     "oldPrice": 250000,
     "discountPercent": 20,
@@ -831,18 +818,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum To‘plami 🧥\n\n✨ Yangi to‘liq obrazlar\n\nLook 1\n🧥 Vitirovka— 1.200.000 so‘m\n🧶 Sviter — 460.000 so‘m\n👖 Shim — 495.000 so‘m\n👞 Oyoq kiyim — 1.080.000 so‘m\n\nLook 2\n🧥 Vitirovka— 1.200.000 so‘m\n🧶 Sviter — 460.000 so‘m\n👖 Shim — 495.000 so‘m\n👞 Oyoq kiyim — 1.080.000 so‘m\n\n📍 Golden life\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Qora Monoxrom",
+      "Zaytun Yashil",
+      "To‘q Ko‘k",
+      "Qumrang"
     ],
     "rating": 4.9,
     "reviewsCount": 199,
@@ -852,8 +838,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_27",
-    "title": "Raffini Premial Charm Poyabzal #27",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Klassik Kostyum-Shim #27",
+    "category": "Kostyumlar",
     "price": 230000,
     "oldPrice": 280000,
     "discountPercent": 18,
@@ -864,18 +850,18 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n1️⃣ Look 1\n👖 Kostyum shim — 1.230.000 so‘m\n👔 Ko‘ylak — 400.000 so‘m\n👞 Oyoq kiyim — 1.350.000 so‘m\n\n2️⃣ Look 2\n👖 Kostyum shim — 1.230.000 so‘m\n👔 Ko‘ylak — 595.000 so‘m\n👞 Oyoq kiyim — 990.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "46",
+      "48",
+      "50",
+      "52",
+      "54",
+      "56"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Midnight Ko‘k",
+      "Klassik Qora",
+      "Kulrang Melanj",
+      "Shokolad Rang"
     ],
     "rating": 4.9,
     "reviewsCount": 206,
@@ -885,8 +871,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_28",
-    "title": "Raffini Premial Charm Poyabzal #28",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Jun Palto #28",
+    "category": "Kurtkalar & Vitirovka",
     "price": 200000,
     "oldPrice": 250000,
     "discountPercent": 20,
@@ -897,18 +883,16 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n1️⃣ Look 1\n🧥 Palto — 2.200.000 so‘m\n👔 Ko‘ylak — 595.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.350.000 so‘m\n\n2️⃣ Look 2\n🧥 Palto — 2.200.000 so‘m\n👔 Ko‘ylak — 400.000 so‘m\n👖 Shim — 530.000 so‘m\n👞 Oyoq kiyim — 1.000.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "Qoramtir Ko‘k",
+      "Qahva Jigarrang"
     ],
     "rating": 4.9,
     "reviewsCount": 213,
@@ -918,8 +902,8 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_29",
-    "title": "Raffini Premial Charm Poyabzal #29",
-    "category": "Oyoq kiyimlar",
+    "title": "Raffini Premial Kurtka #29",
+    "category": "Kurtkalar & Vitirovka",
     "price": 330000,
     "oldPrice": 410000,
     "discountPercent": 20,
@@ -930,18 +914,17 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "description": "🍁 Yangi Mavsum Obrazi 🧥\n\n✨ Yangi to‘liq obraz\n\n1️⃣ Look 1\n🧢 Kepka — 330.000 so‘m\n👕 Amerikanka — 400.000 so‘m\n🧥 Kurtka — 1.500.000 so‘m\n👖 Shim — 495.000 so‘m\n👞 Oyoq kiyim — 1.350.000 so‘m\n\n2️⃣ Look 2\n🧢 Kepka — 330.000 so‘m\n👕 Amerikanka — 360.000 so‘m\n🧥 Kurtka — 1.500.000 so‘m\n👖 Shim — 495.000 so‘m\n👞 Oyoq kiyim — 1.350.000 so‘m\n\n📍 Novza\n☎️ +998 95-052-73-52",
     "sizes": [
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44"
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL"
     ],
     "colors": [
-      "Qora Tabiiy Teri",
-      "To‘q Jigarrang",
-      "Oq Marvarid",
-      "Kulrang Zamsh"
+      "Klassik Qora",
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 220,
@@ -951,7 +934,7 @@ export const RAFFINI_PRODUCTS: Product[] = [
   },
   {
     "id": "raffini_30",
-    "title": "Premium Raffini Kurtka",
+    "title": "Raffini Premial Kurtka #30",
     "category": "Kurtkalar & Vitirovka",
     "price": 850000,
     "oldPrice": 1050000,
@@ -969,9 +952,9 @@ export const RAFFINI_PRODUCTS: Product[] = [
     ],
     "colors": [
       "Klassik Qora",
-      "To‘q Ko‘k (Midnight)",
-      "Zaytun Yashil",
-      "Krem Bej"
+      "To‘q Ko‘k (Navy)",
+      "Shokolad Jigar",
+      "Zaytun"
     ],
     "rating": 4.9,
     "reviewsCount": 227,
@@ -988,7 +971,4 @@ export const CATEGORIES = [
   'Oyoq kiyimlar',
   'Sviter & Trikotaj',
   'To‘plamlar',
-  'Futbolka & Polo',
-  'Klassik Shimlar',
-  'Aksessuarlar'
 ];
