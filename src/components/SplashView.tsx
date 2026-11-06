@@ -52,66 +52,58 @@ export function SplashView({ onStart }: SplashViewProps) {
               alt="RAFFINI Erkaklar Modasi"
               fill
               priority
-              className="object-cover object-center filter brightness-[0.96] contrast-[1.03]"
+              className="object-cover object-center filter brightness-[0.92] contrast-[1.05]"
             />
-            {/* Subtle Vignette Gradient for Logo Legibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
+            {/* Darker Center Gradient to make White Logo Pop Crisp & Clear */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/40 pointer-events-none" />
           </div>
 
           {/* Top Skip Button */}
-          <div className="relative z-10 pt-6 px-6 flex justify-end">
+          <div className="relative z-20 pt-6 px-6 flex justify-end">
             <button
               onClick={handleStart}
-              className="text-xs text-white/70 hover:text-white font-medium tracking-wider uppercase transition-colors px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10"
+              className="text-xs text-white/80 hover:text-white font-medium tracking-wider uppercase transition-colors px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20"
             >
               O‘tkazish
             </button>
           </div>
 
-          {/* Center Brand Identity (1:1 SVG Logo with Hand-Drawn Minimalist Underline) */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 my-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.6 }}
-              className="flex flex-col items-center"
+          {/* Center Brand Identity: Positioned directly across the image */}
+          <div className="absolute top-[48%] -translate-y-1/2 left-0 right-0 z-20 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+            {/* 1:1 Vector SVG Logo with bold shadow */}
+            <RaffiniLogoSvg
+              color="#FFFFFF"
+              className="w-64 sm:w-72 h-16 sm:h-20 drop-shadow-[0_4px_25px_rgba(0,0,0,0.9)]"
+            />
+
+            {/* Minimal Hand-Drawn Brush Underline (Matching Reference Screen 1) */}
+            <svg
+              viewBox="0 0 160 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-40 sm:w-48 h-3 mt-1 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
             >
-              {/* 1:1 Official Vector SVG Logo */}
-              <RaffiniLogoSvg
-                color="#FFFFFF"
-                className="w-56 sm:w-64 h-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
+              <path
+                d="M 4 7 C 40 2, 90 9, 156 5"
+                stroke="currentColor"
+                strokeWidth="3.2"
+                strokeLinecap="round"
               />
+            </svg>
 
-              {/* Minimal Hand-Drawn Brush Underline (Matching Reference) */}
-              <svg
-                viewBox="0 0 160 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-36 sm:w-44 h-3 mt-1.5 text-white/90 drop-shadow-md"
-              >
-                <path
-                  d="M 4 7 C 40 2, 90 9, 156 5"
-                  stroke="currentColor"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                />
-              </svg>
-
-              <span className="text-[11px] text-[#FAE9D7] tracking-[0.28em] uppercase font-light mt-3 drop-shadow-md">
-                Toshkent • 11 Filial
-              </span>
-            </motion.div>
+            <span className="text-[11px] text-[#FAE9D7] tracking-[0.3em] uppercase font-bold mt-2.5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              Toshkent • 11 Filial
+            </span>
           </div>
 
           {/* Bottom Circle Action Button (Matching Reference Screen 1) */}
-          <div className="relative z-10 pb-12 flex flex-col items-center">
+          <div className="relative z-20 pb-12 flex flex-col items-center">
             <motion.button
               whileTap={{ scale: 0.92 }}
               whileHover={{ scale: 1.05 }}
               onClick={handleStart}
               aria-label="Xaridni boshlash"
-              className="w-16 h-16 rounded-full bg-white text-[#1A1F33] shadow-[0_10px_30px_rgba(0,0,0,0.4)] flex items-center justify-center transition-transform group cursor-pointer border-4 border-white/20"
+              className="w-16 h-16 rounded-full bg-white text-[#1A1F33] shadow-[0_10px_35px_rgba(0,0,0,0.5)] flex items-center justify-center transition-transform group cursor-pointer border-4 border-white/30"
             >
               <ArrowRight className="w-6 h-6 stroke-[2.5] text-[#1A1F33] group-hover:translate-x-0.5 transition-transform" />
             </motion.button>

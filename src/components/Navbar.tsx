@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Search, MapPin, Globe } from 'lucide-react';
+import { Menu, Search, ShoppingBag } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { RaffiniLogoSvg } from './RaffiniLogoSvg';
 import { triggerHaptic } from '@/lib/telegram';
@@ -12,69 +12,66 @@ interface NavbarProps {
 }
 
 export function Navbar({ onSearchClick, onBranchesClick }: NavbarProps) {
-  const { setActiveTab, language, setLanguage, t } = useStore();
-
-  const toggleLang = () => {
-    triggerHaptic('light');
-    setLanguage(language === 'uz' ? 'ru' : 'uz');
-  };
+  const { cartCount, setActiveTab } = useStore();
 
   return (
-    <header className="sticky top-0 z-30 bg-[#FBF8F3]/95 backdrop-blur-md border-b border-black/5 transition-all select-none">
-      <div className="max-w-md mx-auto px-4 h-15 flex items-center justify-between">
-        {/* Left: 1:1 Vector SVG Brand Identity */}
+    <header className="sticky top-0 z-30 bg-[#FBF8F3]/90 backdrop-blur-md transition-all">
+      <div className="max-w-md mx-auto px-5 h-14 flex items-center justify-between">
+        {/* Left: Minimal Menu Icon (Matching Reference Screen 2) */}
+        <button
+          onClick={() => {
+            triggerHaptic('light');
+            onBranchesClick?.();
+          }}
+          aria-label="Filiallar va menyu"
+          className="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-[#1A1F33] hover:bg-black/5 active:scale-90 transition"
+        >
+          {/* Elegant two-line hamburger icon as in reference */}
+          <div className="w-5 flex flex-col gap-1.5 items-start">
+            <span className="w-5 h-[2px] bg-[#1A1F33] rounded-full" />
+            <span className="w-3.5 h-[2px] bg-[#1A1F33] rounded-full" />
+          </div>
+        </button>
+
+        {/* Center: 1:1 Vector SVG Logo (Razor-sharp, pure vector) */}
         <div
           onClick={() => {
             triggerHaptic('light');
             setActiveTab('home');
           }}
-          className="flex items-center gap-2.5 cursor-pointer"
+          className="cursor-pointer flex items-center justify-center"
         >
-          <div className="flex flex-col">
-            <RaffiniLogoSvg
-              color="#1A1F33"
-              className="h-5 w-auto hover:opacity-90 transition"
-            />
-            <span className="text-[9px] text-[#1A1F33]/55 font-semibold tracking-wider uppercase mt-0.5">
-              {t('subtitle')}
-            </span>
-          </div>
+          <RaffiniLogoSvg
+            color="#1A1F33"
+            className="h-6 w-auto hover:opacity-90 transition"
+          />
         </div>
 
-        {/* Right: Actions (Language toggle + Branches + Search) */}
-        <div className="flex items-center gap-1.5">
-          {/* Language Switcher [ UZ | RU ] (As pointed out in the video by Komoliddin) */}
-          <button
-            onClick={toggleLang}
-            className="px-2.5 py-1 rounded-full bg-black/5 hover:bg-black/10 text-[10px] font-bold text-[#1A1F33] flex items-center gap-1 transition active:scale-95"
-            title="Tilni o‘zgartirish / Сменить язык"
-          >
-            <Globe className="w-3 h-3 text-[#1A1F33]/60" />
-            <span>{language.toUpperCase()}</span>
-          </button>
-
-          {/* 11 Branches quick button */}
-          <button
-            onClick={() => {
-              triggerHaptic('light');
-              onBranchesClick?.();
-            }}
-            aria-label="11 Filial"
-            className="w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#1A1F33] active:scale-90 transition"
-          >
-            <MapPin className="w-4 h-4" />
-          </button>
-
-          {/* Search button */}
+        {/* Right: Minimal Search & Bag Icons */}
+        <div className="flex items-center gap-1 -mr-2">
           <button
             onClick={() => {
               triggerHaptic('light');
               onSearchClick?.();
             }}
             aria-label="Qidiruv"
-            className="w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#1A1F33] active:scale-90 transition"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-[#1A1F33] hover:bg-black/5 active:scale-90 transition"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-5 h-5 stroke-[1.8]" />
+          </button>
+
+          <button
+            onClick={() => {
+              triggerHaptic('selection');
+              setActiveTab('cart');
+            }}
+            aria-label="Savat"
+            className="relative w-10 h-10 rounded-full flex items-center justify-center text-[#1A1F33] hover:bg-black/5 active:scale-90 transition"
+          >
+            <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
+            {cartCount > 0 && (
+              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#1A1F33] ring-2 ring-[#FBF8F3]" />
+            )}
           </button>
         </div>
       </div>

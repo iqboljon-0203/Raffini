@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, CartItem, Order } from '@/types';
 import { triggerHaptic, getTelegramUser, TelegramUser } from '@/lib/telegram';
-import { Language, translations } from '@/lib/translations';
 
 interface StoreContextType {
   cart: CartItem[];
@@ -30,10 +29,6 @@ interface StoreContextType {
   
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
-
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: keyof typeof translations['uz']) => string;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -47,7 +42,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null);
   const [activeTab, setActiveTabState] = useState<'home' | 'catalog' | 'cart' | 'orders' | 'profile'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [language, setLanguageState] = useState<Language>('uz');
 
   // Load from localStorage & init Telegram
   useEffect(() => {
@@ -60,9 +54,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
       const savedOrders = localStorage.getItem('raffini_orders');
       if (savedOrders) setOrders(JSON.parse(savedOrders));
-
-      const savedLang = localStorage.getItem('raffini_lang') as Language;
-      if (savedLang === 'uz' || savedLang === 'ru') setLanguageState(savedLang);
 
       const user = getTelegramUser();
       if (user) {
@@ -91,18 +82,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('raffini_orders', JSON.stringify(orders));
     } catch (e) {}
   }, [orders]);
-
-  const setLanguage = (lang: Language) => {
-    triggerHaptic('light');
-    setLanguageState(lang);
-    try {
-      localStorage.setItem('raffini_lang', lang);
-    } catch (e) {}
-  };
-
-  const t = (key: keyof typeof translations['uz']): string => {
-    return translations[language][key] || translations['uz'][key] || '';
-  };
 
   const setActiveTab = (tab: 'home' | 'catalog' | 'cart' | 'orders' | 'profile') => {
     triggerHaptic('selection');
@@ -169,13 +148,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const toggleWishlist = (productId: string) => {
     triggerHaptic('medium');
-    setWishlist((prev) => {
-      const exists = prev.includes(productId);
-      if (exists) {
-        return prev.filter((id) => id !== productId);
-      }
-      return [...prev, productId];
-    });
+    setWishlist((prev) =>
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    );
   };
 
   const isWishlisted = (productId: string) => wishlist.includes(productId);
@@ -183,13 +158,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const addOrder = (order: Order) => {
     setOrders((prev) => [order, ...prev]);
     clearCart();
+    triggerHaptic('success');
   };
 
-  // Calculations
-  const rawSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-  const discountAmount = Math.round((rawSubtotal * discountPercent) / 100);
-  const cartTotal = rawSubtotal - discountAmount;
-  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const rawTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const discountAmount = Math.round((rawTotal * discountPercent) / 100);
+  const cartTotal = rawTotal - discountAmount;
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <StoreContext.Provider
@@ -214,9 +189,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setActiveTab,
         selectedProduct,
         setSelectedProduct,
-        language,
-        setLanguage,
-        t,
       }}
     >
       {children}
@@ -225,9 +197,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useStore() {
-  const context = useContext(StoreContext);
-  if (!context) {
-    throw new Error('useStore must be used within a StoreProvider');
-  }
-  return context;
+  const ctx = useContext(StoreContext);
+  if (!ctx) throw new Error('useStore must be used within StoreProvider');
+  return ctx;
 }
+

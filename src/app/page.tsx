@@ -64,11 +64,8 @@ export default function MainPage() {
         )}
       </div>
 
-      {/* Bottom Navigation with Elevated Center Cart Button */}
-      <BottomNavigation
-        onBranchesClick={() => setIsBranchesOpen(true)}
-        onWishlistClick={() => setIsWishlistOpen(true)}
-      />
+      {/* Floating Organic Bottom Nav Bar (Reference Screen 2) */}
+      <BottomNavigation onWishlistClick={() => setIsWishlistOpen(true)} />
 
       {/* Modals & Sheets (Reference Screen 3) */}
       <ProductDetailModal
