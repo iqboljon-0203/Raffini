@@ -33,18 +33,18 @@ export default function MainPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#07100D] text-white selection:bg-luxury-gold selection:text-[#091310] relative">
-      {/* Onboarding Splash */}
+    <main className="min-h-screen bg-[#FBF8F3] text-[#1A1F33] selection:bg-[#1A1F33] selection:text-[#FAE9D7] relative font-sans">
+      {/* Onboarding Splash (Reference Screen 1) */}
       <SplashView onStart={() => setActiveTab('home')} />
 
-      {/* Top Navbar */}
+      {/* Top Navbar (Reference Screen 2) */}
       <Navbar
         onSearchClick={() => setIsSearchOpen(true)}
         onBranchesClick={() => setIsBranchesOpen(true)}
       />
 
       {/* Main Tab View */}
-      <div className="pt-2">
+      <div className="pt-1">
         {activeTab === 'home' && (
           <HomeView
             onSearchClick={() => setIsSearchOpen(true)}
@@ -64,10 +64,10 @@ export default function MainPage() {
         )}
       </div>
 
-      {/* Bottom Nav Bar */}
-      <BottomNavigation />
+      {/* Floating Organic Bottom Nav Bar (Reference Screen 2) */}
+      <BottomNavigation onWishlistClick={() => setIsWishlistOpen(true)} />
 
-      {/* Modals & Sheets */}
+      {/* Modals & Sheets (Reference Screen 3) */}
       <ProductDetailModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
@@ -108,4 +108,3 @@ export default function MainPage() {
     </main>
   );
 }
-

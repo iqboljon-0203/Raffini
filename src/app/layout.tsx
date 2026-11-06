@@ -16,7 +16,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#07100D',
+  themeColor: '#FBF8F3',
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="uz" className="dark" suppressHydrationWarning>
+    <html lang="uz" suppressHydrationWarning>
       <head>
         <script src="https://telegram.org/js/telegram-web-app.js" async />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,7 +35,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#07100D] antialiased select-none font-sans overflow-x-hidden" suppressHydrationWarning>
+      <body className="bg-[#FBF8F3] text-[#1A1F33] antialiased select-none font-sans overflow-x-hidden min-h-screen" suppressHydrationWarning>
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>

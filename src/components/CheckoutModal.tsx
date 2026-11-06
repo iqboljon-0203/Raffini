@@ -78,7 +78,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newOrder),
-      }).catch((err) => console.warn('Order API background notice:', err));
+      }).catch((err) => console.warn('Order API notice:', err));
 
       addOrder(newOrder);
       triggerHaptic('success');
@@ -92,37 +92,39 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in">
-      <div className="bg-[#1A1F33] border border-[#FAE9D7]/30 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in select-none">
+      <div className="bg-white text-[#1A1F33] w-full max-w-md rounded-t-[32px] sm:rounded-[32px] max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#141928]">
+        <div className="flex items-center justify-between p-5 border-b border-black/5">
           <div>
-            <h2 className="text-base font-serif font-bold text-white">Buyurtmani rasmiylashtirish</h2>
-            <span className="text-[11px] text-[#FAE9D7]">Jami: {formatUZS(cartTotal)}</span>
+            <h2 className="text-base font-serif font-bold text-[#1A1F33]">
+              Buyurtmani rasmiylashtirish
+            </h2>
+            <span className="text-xs text-[#1A1F33]/60">Jami: {formatUZS(cartTotal)}</span>
           </div>
           <button
             onClick={() => {
               triggerHaptic('light');
               onClose();
             }}
-            className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:text-white"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1F33]/60 hover:bg-black/5"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-4 overflow-y-auto space-y-4 text-xs">
+        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 text-xs">
           {error && (
-            <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+            <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-medium">
               {error}
             </div>
           )}
 
           {/* Delivery Method Tabs */}
           <div>
-            <label className="text-xs font-semibold text-white/90 uppercase tracking-wider block mb-2">
-              Yetkazish turi
+            <label className="text-xs font-semibold text-[#1A1F33] block mb-2">
+              Yetkazish usuli
             </label>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -132,15 +134,15 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   setDeliveryType('pickup');
                 }}
                 className={cn(
-                  "p-3 rounded-xl border flex flex-col items-center text-center transition-all",
+                  "p-3 rounded-2xl border flex flex-col items-center text-center transition-all",
                   deliveryType === 'pickup'
-                    ? "bg-[#FAE9D7]/15 border-[#FAE9D7] text-white shadow-gold-glow"
-                    : "bg-[#141928] border-white/5 text-[#A0AEC0]"
+                    ? "bg-[#1A1F33] text-[#FAE9D7] border-[#1A1F33] shadow-sm"
+                    : "bg-[#FBF8F3] border-[#1A1F33]/15 text-[#1A1F33]"
                 )}
               >
-                <Building2 className={cn("w-5 h-5 mb-1.5", deliveryType === 'pickup' ? "text-[#FAE9D7]" : "text-[#A0AEC0]")} />
+                <Building2 className="w-5 h-5 mb-1" />
                 <span className="font-bold text-xs">Filialdan olib ketish</span>
-                <span className="text-[10px] text-emerald-400 mt-0.5">11 ta filial (bepul)</span>
+                <span className="text-[10px] opacity-80 mt-0.5">11 filial (bepul)</span>
               </button>
 
               <button
@@ -150,32 +152,32 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   setDeliveryType('delivery');
                 }}
                 className={cn(
-                  "p-3 rounded-xl border flex flex-col items-center text-center transition-all",
+                  "p-3 rounded-2xl border flex flex-col items-center text-center transition-all",
                   deliveryType === 'delivery'
-                    ? "bg-[#FAE9D7]/15 border-[#FAE9D7] text-white shadow-gold-glow"
-                    : "bg-[#141928] border-white/5 text-[#A0AEC0]"
+                    ? "bg-[#1A1F33] text-[#FAE9D7] border-[#1A1F33] shadow-sm"
+                    : "bg-[#FBF8F3] border-[#1A1F33]/15 text-[#1A1F33]"
                 )}
               >
-                <Truck className={cn("w-5 h-5 mb-1.5", deliveryType === 'delivery' ? "text-[#FAE9D7]" : "text-[#A0AEC0]")} />
+                <Truck className="w-5 h-5 mb-1" />
                 <span className="font-bold text-xs">Kuryer orqali</span>
-                <span className="text-[10px] text-emerald-400 mt-0.5">Toshkent bo‘ylab</span>
+                <span className="text-[10px] opacity-80 mt-0.5">O‘zbekiston bo‘ylab</span>
               </button>
             </div>
           </div>
 
-          {/* Branch Selector or Address Input */}
+          {/* Branch or Address */}
           {deliveryType === 'pickup' ? (
             <div>
-              <label className="text-xs font-semibold text-white/90 block mb-1.5">
+              <label className="text-xs font-semibold text-[#1A1F33] block mb-1.5">
                 Filialni tanlang (Toshkent):
               </label>
               <select
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
-                className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#FAE9D7]"
+                className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-2xl px-3 py-2.5 text-xs text-[#1A1F33] focus:outline-none focus:border-[#1A1F33]"
               >
                 {RAFFINI_BRANCHES.map((b) => (
-                  <option key={b.id} value={b.name} className="bg-[#1A1F33] text-white">
+                  <option key={b.id} value={b.name} className="text-[#1A1F33]">
                     {b.name} — {b.landmark} ({b.workHours})
                   </option>
                 ))}
@@ -183,23 +185,23 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
             </div>
           ) : (
             <div>
-              <label className="text-xs font-semibold text-white/90 block mb-1.5">
+              <label className="text-xs font-semibold text-[#1A1F33] block mb-1.5">
                 Yetkazib berish manzili:
               </label>
               <textarea
-                placeholder="Tuman, ko‘cha, uy, xonadon raqami yoki mo‘ljal"
+                placeholder="Shahar, tuman, ko‘cha, xonadon raqami"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={2}
-                className="w-full bg-[#141928] border border-white/10 rounded-xl p-3 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
+                className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-2xl p-3 text-xs text-[#1A1F33] placeholder:text-[#1A1F33]/40 focus:outline-none focus:border-[#1A1F33]"
               />
             </div>
           )}
 
           {/* Customer info */}
-          <div className="space-y-3 pt-2 border-t border-white/5">
+          <div className="space-y-3 pt-2 border-t border-black/5">
             <div>
-              <label className="text-xs font-semibold text-white/90 block mb-1">
+              <label className="text-xs font-semibold text-[#1A1F33] block mb-1">
                 Ismingiz:
               </label>
               <div className="relative">
@@ -208,14 +210,14 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   placeholder="Ismingizni kiriting"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
+                  className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-2xl px-3 py-2.5 pl-9 text-xs text-[#1A1F33] placeholder:text-[#1A1F33]/40 focus:outline-none focus:border-[#1A1F33]"
                 />
-                <UserIcon className="w-4 h-4 text-[#FAE9D7] absolute left-3 top-3" />
+                <UserIcon className="w-4 h-4 text-[#1A1F33]/50 absolute left-3 top-3" />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-white/90 block mb-1">
+              <label className="text-xs font-semibold text-[#1A1F33] block mb-1">
                 Telefon raqamingiz:
               </label>
               <div className="relative">
@@ -224,23 +226,23 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   placeholder="+998 90 123 45 67"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7] font-mono"
+                  className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-2xl px-3 py-2.5 pl-9 text-xs text-[#1A1F33] placeholder:text-[#1A1F33]/40 focus:outline-none focus:border-[#1A1F33] font-mono"
                 />
-                <Phone className="w-4 h-4 text-[#FAE9D7] absolute left-3 top-3" />
+                <Phone className="w-4 h-4 text-[#1A1F33]/50 absolute left-3 top-3" />
               </div>
             </div>
           </div>
 
           {/* Payment Method */}
-          <div className="pt-2 border-t border-white/5">
-            <label className="text-xs font-semibold text-white/90 uppercase tracking-wider block mb-2">
+          <div className="pt-2 border-t border-black/5">
+            <label className="text-xs font-semibold text-[#1A1F33] block mb-2">
               To‘lov usuli
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
                 { id: 'click' as const, label: 'Click' },
                 { id: 'payme' as const, label: 'Payme' },
-                { id: 'cash' as const, label: 'Naqd / Karta' },
+                { id: 'cash' as const, label: 'Naqd pul' },
               ].map((p) => (
                 <button
                   key={p.id}
@@ -250,10 +252,10 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                     setPaymentMethod(p.id);
                   }}
                   className={cn(
-                    "py-2.5 px-2 rounded-xl border text-center font-bold text-xs transition-all",
+                    "py-2.5 px-2 rounded-2xl border text-center font-bold text-xs transition-all",
                     paymentMethod === p.id
-                      ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] shadow-gold-glow"
-                      : "bg-[#141928] border-white/5 text-white/80"
+                      ? "bg-[#1A1F33] text-[#FAE9D7] border-[#1A1F33]"
+                      : "bg-[#FBF8F3] border-[#1A1F33]/15 text-[#1A1F33]"
                   )}
                 >
                   {p.label}
@@ -264,7 +266,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
 
           {/* Order Notes */}
           <div>
-            <label className="text-xs font-semibold text-white/80 block mb-1">
+            <label className="text-xs font-semibold text-[#1A1F33] block mb-1">
               Qo‘shimcha izoh (ixtiyoriy):
             </label>
             <input
@@ -272,7 +274,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
               placeholder="Masalan: Qo‘ng‘iroq qilib kelinsin"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
+              className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-2xl px-3 py-2.5 text-xs text-[#1A1F33] placeholder:text-[#1A1F33]/40 focus:outline-none focus:border-[#1A1F33]"
             />
           </div>
 
@@ -281,12 +283,12 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-gold-glow hover:brightness-105 active:scale-[0.98] transition disabled:opacity-50"
+              className="w-full py-4 rounded-full bg-[#1A1F33] text-[#FAE9D7] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition disabled:opacity-50 hover:bg-[#252B44]"
             >
               {isSubmitting ? (
                 <span>Yuborilmoqda...</span>
               ) : (
-                <span>Buyurtmani tasdiqlash • {formatUZS(cartTotal)}</span>
+                <span>Tasdiqlash • {formatUZS(cartTotal)}</span>
               )}
             </button>
           </div>

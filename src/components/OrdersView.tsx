@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Clock, CheckCircle2, Truck, Package, MessageCircle, MapPin, ChevronRight } from 'lucide-react';
+import { Clock, CheckCircle2, Truck, Package, MessageCircle, MapPin, ChevronRight, X } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { formatUZS, cn } from '@/lib/utils';
 import { triggerHaptic } from '@/lib/telegram';
@@ -22,12 +22,12 @@ export function OrdersView() {
   });
 
   return (
-    <div className="max-w-md mx-auto px-4 pb-32 pt-2">
+    <div className="max-w-md mx-auto px-5 pb-32 pt-2 select-none text-[#1A1F33]">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-white/5">
+      <div className="flex items-center justify-between pb-3 border-b border-[#1A1F33]/10">
         <div>
-          <h1 className="text-lg font-serif font-bold text-white">Buyurtmalarim</h1>
-          <span className="text-[11px] text-luxury-gold">{orders.length} ta buyurtma</span>
+          <h1 className="text-xl font-serif font-bold text-[#1A1F33]">Buyurtmalarim</h1>
+          <span className="text-xs text-[#1A1F33]/60">{orders.length} ta buyurtma</span>
         </div>
       </div>
 
@@ -46,10 +46,10 @@ export function OrdersView() {
               setFilter(tab.id);
             }}
             className={cn(
-              "px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border",
+              "px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all",
               filter === tab.id
-                ? "bg-luxury-gold text-[#091310] border-luxury-gold shadow-gold-glow"
-                : "bg-luxury-card text-[#8E9F97] border-white/5 hover:text-white"
+                ? "bg-[#1A1F33] text-[#FAE9D7] font-semibold"
+                : "bg-black/5 text-[#1A1F33]/70 hover:bg-black/10"
             )}
           >
             {tab.label}
@@ -60,16 +60,16 @@ export function OrdersView() {
       {/* Orders List */}
       {filteredOrders.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
-          <div className="w-16 h-16 rounded-full bg-luxury-card border border-luxury-gold/20 flex items-center justify-center text-luxury-gold mb-3">
-            <Package className="w-8 h-8 opacity-60" />
+          <div className="w-16 h-16 rounded-full bg-black/5 flex items-center justify-center text-[#1A1F33] mb-3">
+            <Package className="w-7 h-7 stroke-[1.6]" />
           </div>
-          <h3 className="text-sm font-bold text-white font-serif">Hozircha buyurtma yo‘q</h3>
-          <p className="text-xs text-[#7A8A82] mt-1 max-w-xs">
+          <h3 className="text-sm font-bold text-[#1A1F33] font-serif">Hozircha buyurtma yo‘q</h3>
+          <p className="text-xs text-[#1A1F33]/60 mt-1 max-w-xs font-light">
             Buyurtma berganingizdan so‘ng uning holatini shu yerda real vaqtda kuzatib borishingiz mumkin.
           </p>
           <button
             onClick={() => setActiveTab('catalog')}
-            className="mt-5 px-5 py-2.5 rounded-xl bg-luxury-card border border-luxury-gold/30 text-luxury-gold font-bold text-xs hover:bg-luxury-gold hover:text-[#091310] transition"
+            className="mt-5 px-5 py-2.5 rounded-full bg-[#1A1F33] text-[#FAE9D7] font-medium text-xs shadow-sm"
           >
             Katalogga o‘tish
           </button>
@@ -87,86 +87,79 @@ export function OrdersView() {
                   triggerHaptic('light');
                   setSelectedOrder(order);
                 }}
-                className="p-4 rounded-2xl bg-luxury-card border border-white/5 hover:border-luxury-gold/30 transition cursor-pointer active:scale-[0.99]"
+                className="p-4 rounded-2xl bg-white border border-[#1A1F33]/10 shadow-sm hover:border-[#1A1F33]/30 transition cursor-pointer active:scale-[0.99]"
               >
                 {/* Order Top Bar */}
-                <div className="flex items-center justify-between pb-2.5 border-b border-white/5">
+                <div className="flex items-center justify-between pb-2.5 border-b border-black/5">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-white tracking-wider">
+                    <span className="font-mono text-xs font-bold text-[#1A1F33]">
                       #{order.id}
                     </span>
-                    <span className="text-[10px] text-[#7A8A82]">
+                    <span className="text-[11px] text-[#1A1F33]/50">
                       {new Date(order.date).toLocaleDateString('uz-UZ', {
                         month: 'short',
                         day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
                       })}
                     </span>
                   </div>
 
-                  {/* Status Badge */}
                   <span
                     className={cn(
-                      "text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1",
-                      isDelivered && "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
-                      isShipping && "bg-blue-500/20 text-blue-400 border border-blue-500/30",
-                      !isDelivered && !isShipping && "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                      "px-2.5 py-0.5 rounded-full text-[10px] font-bold",
+                      isDelivered
+                        ? "bg-emerald-50 text-emerald-700"
+                        : isShipping
+                        ? "bg-blue-50 text-blue-700"
+                        : "bg-amber-50 text-amber-700"
                     )}
                   >
-                    {isDelivered && <CheckCircle2 className="w-3 h-3" />}
-                    {isShipping && <Truck className="w-3 h-3" />}
-                    {!isDelivered && !isShipping && <Clock className="w-3 h-3" />}
                     {isDelivered
                       ? 'Yetkazildi'
                       : isShipping
                       ? 'Yetkazilmoqda'
-                      : 'Qabul qilindi'}
+                      : 'Kutilmoqda'}
                   </span>
                 </div>
 
                 {/* Items preview */}
-                <div className="flex items-center justify-between mt-3">
+                <div className="py-2.5 flex items-center justify-between">
                   <div className="flex items-center gap-2 overflow-hidden">
-                    {order.items.slice(0, 3).map((item, idx) => (
+                    {order.items.slice(0, 3).map((item, i) => (
                       <div
-                        key={idx}
-                        className="relative w-12 h-14 rounded-lg overflow-hidden bg-[#0d1814] border border-white/10 flex-shrink-0"
+                        key={i}
+                        className="relative w-10 h-12 rounded-lg overflow-hidden bg-[#ECE8E1] border border-black/5 flex-shrink-0"
                       >
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          className="object-cover object-top"
-                        />
+                        <Image src={item.image} alt={item.title} fill className="object-cover" />
                       </div>
                     ))}
                     {order.items.length > 3 && (
-                      <div className="w-12 h-14 rounded-lg bg-[#091310] border border-white/10 flex items-center justify-center text-[11px] font-bold text-luxury-gold">
-                        +{order.items.length - 3}
-                      </div>
+                      <span className="text-[10px] text-[#1A1F33]/60 font-semibold pl-1">
+                        +{order.items.length - 3} ta
+                      </span>
                     )}
                   </div>
 
                   <div className="text-right">
-                    <span className="text-[10px] text-[#7A8A82] block">Jami summa:</span>
-                    <span className="text-xs font-bold text-luxury-gold font-serif">
+                    <span className="text-xs font-bold text-[#1A1F33] block">
                       {formatUZS(order.totalPrice)}
+                    </span>
+                    <span className="text-[10px] text-[#1A1F33]/50">
+                      {order.items.reduce((acc, i) => acc + i.quantity, 0)} ta libos
                     </span>
                   </div>
                 </div>
 
-                {/* Bottom link */}
-                <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-white/70">
-                  <span className="flex items-center gap-1 text-[10px] text-[#8E9F97]">
-                    <MapPin className="w-3 h-3 text-luxury-gold" />
-                    {order.deliveryType === 'pickup'
-                      ? order.branchName || 'Filialdan olib ketish'
-                      : 'Kuryer orqali'}
-                  </span>
-                  <span className="text-luxury-gold flex items-center gap-0.5 text-[11px] font-semibold">
-                    Kuzatish <ChevronRight className="w-3 h-3" />
-                  </span>
+                <div className="pt-2 border-t border-black/5 flex items-center justify-between text-[11px] text-[#1A1F33]/70">
+                  <div className="flex items-center gap-1 truncate max-w-[200px]">
+                    <MapPin className="w-3 h-3 text-[#1A1F33]/60 flex-shrink-0" />
+                    <span className="truncate">
+                      {order.branchName || order.address || 'Toshkent'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-0.5 text-[#1A1F33] font-semibold">
+                    <span>Kuzatish</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
                 </div>
               </div>
             );
@@ -174,99 +167,71 @@ export function OrdersView() {
         </div>
       )}
 
-      {/* Order Tracking Modal Sheet */}
+      {/* Selected Order Detail Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in">
-          <div className="bg-[#0b1713] border border-luxury-gold/30 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto p-5 text-xs shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 select-none">
+          <div className="bg-white text-[#1A1F33] w-full max-w-md rounded-t-[32px] sm:rounded-[32px] max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between p-5 border-b border-black/5">
               <div>
-                <h3 className="font-serif font-bold text-white text-base">
+                <h3 className="font-serif font-bold text-base text-[#1A1F33]">
                   Buyurtma #{selectedOrder.id}
                 </h3>
-                <span className="text-[11px] text-[#8E9F97]">
+                <span className="text-xs text-[#1A1F33]/60">
                   {new Date(selectedOrder.date).toLocaleString('uz-UZ')}
                 </span>
               </div>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:text-white"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1F33]/60 hover:bg-black/5"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Tracking Progress */}
-            <div className="my-5 p-4 rounded-2xl bg-luxury-card/70 border border-luxury-gold/20">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">
-                Buyurtma holati
-              </h4>
-              <div className="space-y-4">
-                {[
-                  { title: 'Buyurtma qabul qilindi', desc: 'Do‘kon tizimiga kelib tushdi', done: true },
-                  { title: 'Menejer tasdiqladi', desc: 'Kiyimlar filialdan tayyorlanmoqda', done: true },
-                  { title: 'Yetkazish jarayonida', desc: 'Kuryer yoki filialda kutmoqda', done: selectedOrder.status === 'shipping' || selectedOrder.status === 'delivered' },
-                  { title: 'Muvaffaqiyatli topshirildi', desc: 'Mijozga topshirildi', done: selectedOrder.status === 'delivered' },
-                ].map((step, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div
-                      className={cn(
-                        "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5",
-                        step.done
-                          ? "bg-luxury-gold text-[#091310] shadow-gold-glow"
-                          : "bg-white/10 text-white/40"
-                      )}
-                    >
-                      {step.done ? '✓' : idx + 1}
+            <div className="p-5 overflow-y-auto space-y-4 text-xs">
+              {/* Items List */}
+              <div className="space-y-2">
+                <span className="font-semibold block text-[#1A1F33]">Mahsulotlar:</span>
+                {selectedOrder.items.map((item, idx) => (
+                  <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-[#FBF8F3]">
+                    <div className="flex items-center gap-2.5">
+                      <div className="relative w-10 h-12 rounded-lg overflow-hidden bg-black/5 flex-shrink-0">
+                        <Image src={item.image} alt={item.title} fill className="object-cover" />
+                      </div>
+                      <div>
+                        <span className="font-semibold text-xs block text-[#1A1F33] line-clamp-1">{item.title}</span>
+                        <span className="text-[10px] text-[#1A1F33]/60">
+                          {item.size} • {item.color} • {item.quantity} dona
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className={cn("font-bold text-xs block", step.done ? "text-white" : "text-white/40")}>
-                        {step.title}
-                      </span>
-                      <span className="text-[10px] text-[#7A8A82] block">{step.desc}</span>
-                    </div>
+                    <span className="font-bold text-xs text-[#1A1F33]">{formatUZS(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Customer Details */}
-            <div className="p-3.5 rounded-xl bg-luxury-card border border-white/5 space-y-1.5 text-[11px]">
-              <div className="flex justify-between">
-                <span className="text-[#8E9F97]">Mijoz:</span>
-                <span className="font-semibold text-white">{selectedOrder.customerName}</span>
+              {/* Delivery Info */}
+              <div className="p-3.5 rounded-2xl bg-[#FBF8F3] space-y-1.5">
+                <span className="font-semibold block text-[#1A1F33]">Yetkazish ma’lumotlari:</span>
+                <p className="text-[11px] text-[#1A1F33]/70">
+                  <span className="font-medium text-[#1A1F33]">Xaridor:</span> {selectedOrder.customerName} ({selectedOrder.customerPhone})
+                </p>
+                <p className="text-[11px] text-[#1A1F33]/70">
+                  <span className="font-medium text-[#1A1F33]">Manzil/Filial:</span> {selectedOrder.branchName || selectedOrder.address}
+                </p>
+                <p className="text-[11px] text-[#1A1F33]/70">
+                  <span className="font-medium text-[#1A1F33]">To‘lov:</span> {selectedOrder.paymentMethod.toUpperCase()}
+                </p>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#8E9F97]">Telefon:</span>
-                <span className="font-semibold text-luxury-gold font-mono">{selectedOrder.customerPhone}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#8E9F97]">Yetkazish:</span>
-                <span className="font-semibold text-white">
-                  {selectedOrder.deliveryType === 'pickup'
-                    ? selectedOrder.branchName
-                    : selectedOrder.address}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#8E9F97]">To‘lov usuli:</span>
-                <span className="font-semibold uppercase text-white">{selectedOrder.paymentMethod}</span>
+
+              <div className="pt-2 border-t border-black/5 flex justify-between items-center text-sm font-bold text-[#1A1F33]">
+                <span>Jami to‘lov:</span>
+                <span>{formatUZS(selectedOrder.totalPrice)}</span>
               </div>
             </div>
-
-            {/* Admin support link */}
-            <a
-              href="https://t.me/raffini_uzbekistan"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-4 w-full py-3 rounded-xl bg-[#0088cc]/20 border border-[#0088cc]/40 text-[#29b6f6] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#0088cc]/30 transition"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Telegram Admin bilan bog‘lanish (@raffini_uzbekistan)
-            </a>
           </div>
         </div>
       )}
     </div>
   );
 }
-

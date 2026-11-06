@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronsRight, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { RaffiniLogoSvg } from './RaffiniLogoSvg';
 import { triggerHaptic } from '@/lib/telegram';
 
 interface SplashViewProps {
@@ -14,7 +16,7 @@ export function SplashView({ onStart }: SplashViewProps) {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    const seen = localStorage.getItem('raffini_splash_seen');
+    const seen = sessionStorage.getItem('raffini_splash_dismissed');
     if (seen === 'true') {
       setIsVisible(false);
     }
@@ -26,102 +28,96 @@ export function SplashView({ onStart }: SplashViewProps) {
     triggerHaptic('medium');
     setIsExiting(true);
     setTimeout(() => {
-      localStorage.setItem('raffini_splash_seen', 'true');
+      sessionStorage.setItem('raffini_splash_dismissed', 'true');
       setIsVisible(false);
       onStart();
     }, 400);
   };
 
   return (
-    <div
-      className={`fixed inset-0 z-50 flex flex-col justify-between bg-gradient-to-b from-[#0C0F17] via-[#141826] to-[#0A0D14] p-6 text-center overflow-hidden transition-all duration-500 ${
-        isExiting ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
-      }`}
-    >
-      {/* Background Animated Gradient Aura */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full bg-gradient-to-tr from-[#1A1F33] via-[#FAE9D7]/15 to-transparent blur-3xl pointer-events-none animate-pulse-glow" />
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: isExiting ? 0 : 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.35, ease: 'easeInOut' }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1F33] p-0 sm:p-4 select-none overflow-hidden"
+      >
+        {/* Main Minimalist Fashion Card (Reference Screen 1) */}
+        <div className="relative w-full max-w-md h-full sm:h-[92vh] sm:rounded-[38px] overflow-hidden bg-[#1A1F33] shadow-2xl flex flex-col justify-between">
+          {/* Fullscreen Editorial Model Visual */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/splash_hero.jpg"
+              alt="RAFFINI Erkaklar Modasi"
+              fill
+              priority
+              className="object-cover object-center filter brightness-[0.96] contrast-[1.03]"
+            />
+            {/* Subtle Vignette Gradient for Logo Legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
+          </div>
 
-      {/* Massive Editorial Kinetic Typography Behind Model */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0 overflow-hidden">
-        <span className="font-serif font-black text-[125px] sm:text-[140px] leading-[0.82] tracking-tighter text-[#FAE9D7]/[0.08] select-none">
-          RAF
-        </span>
-        <span className="font-serif font-black text-[125px] sm:text-[140px] leading-[0.82] tracking-tighter text-[#FAE9D7]/[0.08] select-none">
-          FINI
-        </span>
-      </div>
+          {/* Top Skip Button */}
+          <div className="relative z-10 pt-6 px-6 flex justify-end">
+            <button
+              onClick={handleStart}
+              className="text-xs text-white/70 hover:text-white font-medium tracking-wider uppercase transition-colors px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10"
+            >
+              O‘tkazish
+            </button>
+          </div>
 
-      {/* Top Header Pill */}
-      <div className="pt-6 relative z-10 flex items-center justify-between">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1F33]/80 backdrop-blur-md border border-[#FAE9D7]/20 shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-[#FAE9D7] animate-ping" />
-          <span className="text-[10px] font-bold text-[#FAE9D7] tracking-widest uppercase">
-            NEW COLLECTION 2026
-          </span>
-        </div>
+          {/* Center Brand Identity (1:1 SVG Logo with Hand-Drawn Minimalist Underline) */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 my-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.6 }}
+              className="flex flex-col items-center"
+            >
+              {/* 1:1 Official Vector SVG Logo */}
+              <RaffiniLogoSvg
+                color="#FFFFFF"
+                className="w-56 sm:w-64 h-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
+              />
 
-        <button
-          onClick={handleStart}
-          className="text-xs text-[#8E9BAE] hover:text-[#FAE9D7] tracking-wider transition uppercase font-semibold"
-        >
-          O‘tkazish
-        </button>
-      </div>
+              {/* Minimal Hand-Drawn Brush Underline (Matching Reference) */}
+              <svg
+                viewBox="0 0 160 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-36 sm:w-44 h-3 mt-1.5 text-white/90 drop-shadow-md"
+              >
+                <path
+                  d="M 4 7 C 40 2, 90 9, 156 5"
+                  stroke="currentColor"
+                  strokeWidth="2.8"
+                  strokeLinecap="round"
+                />
+              </svg>
 
-      {/* Center 3D Fashion Model Visual */}
-      <div className="relative my-auto w-full max-w-[310px] aspect-[3/4] mx-auto z-10 animate-float">
-        <div className="relative w-full h-full rounded-[36px] overflow-hidden border border-[#FAE9D7]/30 shadow-luxury bg-gradient-to-b from-[#1A1F33] to-[#0C0F17]">
-          <Image
-            src="/images/products/prod_1.jpg"
-            alt="Raffini Model"
-            fill
-            className="object-cover object-top filter brightness-[1.02] contrast-[1.02]"
-            priority
-          />
-
-          {/* Luxury vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C0F17] via-transparent to-transparent opacity-90" />
-
-          {/* Floating Branch Badge on photo */}
-          <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between pointer-events-none">
-            <div className="bg-[#1A1F33]/90 backdrop-blur-md border border-[#FAE9D7]/30 px-3 py-1.5 rounded-2xl shadow-lg">
-              <span className="text-[10px] font-black text-[#FAE9D7] uppercase tracking-wider block">
-                11 Filial Toshkent
+              <span className="text-[11px] text-[#FAE9D7] tracking-[0.28em] uppercase font-light mt-3 drop-shadow-md">
+                Toshkent • 11 Filial
               </span>
-              <span className="text-[9px] text-[#A0AEC0] block">
-                Novza • Golden Life • Chilonzor
-              </span>
-            </div>
-            <div className="w-9 h-9 rounded-full bg-[#FAE9D7] flex items-center justify-center text-[#1A1F33] font-serif font-black text-sm shadow-gold-glow">
-              R
-            </div>
+            </motion.div>
+          </div>
+
+          {/* Bottom Circle Action Button (Matching Reference Screen 1) */}
+          <div className="relative z-10 pb-12 flex flex-col items-center">
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.05 }}
+              onClick={handleStart}
+              aria-label="Xaridni boshlash"
+              className="w-16 h-16 rounded-full bg-white text-[#1A1F33] shadow-[0_10px_30px_rgba(0,0,0,0.4)] flex items-center justify-center transition-transform group cursor-pointer border-4 border-white/20"
+            >
+              <ArrowRight className="w-6 h-6 stroke-[2.5] text-[#1A1F33] group-hover:translate-x-0.5 transition-transform" />
+            </motion.button>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Editorial Content */}
-      <div className="pb-4 relative z-10 max-w-sm mx-auto w-full text-left">
-        <h2 className="text-2xl sm:text-3xl font-serif font-black text-white leading-tight">
-          Elevate Your Style <br />
-          <span className="text-[#FAE9D7] italic font-serif">Game With Raffini.</span>
-        </h2>
-        <p className="text-xs text-[#8E9BAE] mt-2 leading-relaxed">
-          Discover the latest trends, autumn & winter collections and exclusive tailored fashion to keep yourself dashing.
-        </p>
-
-        {/* High-fashion Interactive Button with animated chevrons */}
-        <button
-          onClick={handleStart}
-          className="mt-5 w-full h-14 rounded-full bg-[#1A1F33] border border-[#FAE9D7]/30 p-1.5 flex items-center justify-between hover:border-[#FAE9D7] transition shadow-luxury active:scale-[0.98] group"
-        >
-          <div className="h-full px-6 rounded-full bg-[#FAE9D7] text-[#1A1F33] font-black text-xs uppercase tracking-widest flex items-center justify-center shadow-md">
-            Get Started
-          </div>
-          <div className="pr-5 flex items-center gap-1 text-[#FAE9D7] group-hover:translate-x-1 transition-transform">
-            <ChevronsRight className="w-5 h-5 animate-chevrons" />
-          </div>
-        </button>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

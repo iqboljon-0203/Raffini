@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { X, Search } from 'lucide-react';
 import { RAFFINI_PRODUCTS, CATEGORIES } from '@/data/products';
 import { ProductCard } from '@/components/ProductCard';
 import { useStore } from '@/context/StoreContext';
@@ -17,7 +17,6 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const { setSelectedProduct } = useStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Barchasi');
-  const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'rating'>('default');
 
   if (!isOpen) return null;
 
@@ -25,8 +24,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     const matchesTerm =
       p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.branch.toLowerCase().includes(searchTerm.toLowerCase());
+      p.description.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCat =
       selectedCategory === 'Barchasi' || p.category === selectedCategory;
@@ -34,35 +32,27 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     return matchesTerm && matchesCat;
   });
 
-  if (sortBy === 'price-asc') {
-    filtered = [...filtered].sort((a, b) => a.price - b.price);
-  } else if (sortBy === 'price-desc') {
-    filtered = [...filtered].sort((a, b) => b.price - a.price);
-  } else if (sortBy === 'rating') {
-    filtered = [...filtered].sort((a, b) => b.rating - a.rating);
-  }
-
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#07100D] overflow-y-auto animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#FBF8F3] overflow-y-auto animate-in fade-in select-none text-[#1A1F33]">
       {/* Top Search bar */}
-      <div className="sticky top-0 z-30 p-4 bg-[#091310] border-b border-white/10">
-        <div className="max-w-md mx-auto flex items-center gap-2.5">
+      <div className="sticky top-0 z-30 p-4 bg-white/95 backdrop-blur-md border-b border-black/5">
+        <div className="max-w-md mx-auto flex items-center gap-3">
           <div className="relative flex-1">
             <input
               type="text"
               autoFocus
-              placeholder="Kurtka, kostyum, poyabzal, shim..."
+              placeholder="Qidiruv: kurtka, kostyum, poyabzal..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-luxury-card border border-luxury-gold/30 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-[#FBF8F3] border border-[#1A1F33]/15 rounded-full px-4 py-2.5 pl-10 text-xs text-[#1A1F33] placeholder:text-[#1A1F33]/40 focus:outline-none focus:border-[#1A1F33]"
             />
-            <Search className="w-4 h-4 text-luxury-gold absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-[#1A1F33]/50 absolute left-3.5 top-3" />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3 top-2.5 text-white/50 hover:text-white text-xs"
+                className="absolute right-3.5 top-3 text-[#1A1F33]/40 hover:text-[#1A1F33]"
               >
-                ✕
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -72,14 +62,14 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
               triggerHaptic('light');
               onClose();
             }}
-            className="w-9 h-9 rounded-full bg-luxury-card border border-white/10 flex items-center justify-center text-white/80 hover:text-white"
+            className="text-xs font-semibold text-[#1A1F33]/80 hover:text-[#1A1F33]"
           >
-            <X className="w-5 h-5" />
+            Yopish
           </button>
         </div>
 
-        {/* Categories scroll */}
-        <div className="max-w-md mx-auto flex gap-1.5 mt-3 overflow-x-auto pb-1 no-scrollbar">
+        {/* Categories Bar */}
+        <div className="max-w-md mx-auto flex gap-2 overflow-x-auto pt-3 pb-1 no-scrollbar">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -88,45 +78,34 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 setSelectedCategory(cat);
               }}
               className={cn(
-                "px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition border",
+                "px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all",
                 selectedCategory === cat
-                  ? "bg-luxury-gold text-[#091310] border-luxury-gold font-bold shadow-sm"
-                  : "bg-luxury-card text-[#8E9F97] border-white/5"
+                  ? "bg-[#1A1F33] text-[#FAE9D7]"
+                  : "bg-black/5 text-[#1A1F33]/70 hover:bg-black/10"
               )}
             >
-              {cat}
+              {cat === 'Barchasi' ? 'Erkaklar' : cat}
             </button>
           ))}
         </div>
-
-        {/* Sort selector */}
-        <div className="max-w-md mx-auto flex items-center justify-between mt-2.5 text-[11px] text-[#7A8A82]">
-          <span>{filtered.length} ta mahsulot topildi</span>
-          <div className="flex items-center gap-1.5">
-            <ArrowUpDown className="w-3 h-3 text-luxury-gold" />
-            <select
-              value={sortBy}
-              onChange={(e: any) => setSortBy(e.target.value)}
-              className="bg-transparent text-luxury-gold font-medium focus:outline-none cursor-pointer"
-            >
-              <option value="default" className="bg-[#0b1713]">Saralash: Standart</option>
-              <option value="price-asc" className="bg-[#0b1713]">Narx: Arzonroq</option>
-              <option value="price-desc" className="bg-[#0b1713]">Narx: Qimmatroq</option>
-              <option value="rating" className="bg-[#0b1713]">Reyting: Yuqori</option>
-            </select>
-          </div>
-        </div>
       </div>
 
-      {/* Results grid */}
-      <div className="max-w-md mx-auto w-full p-4 pb-20">
+      {/* Results */}
+      <div className="max-w-md mx-auto w-full p-5 pb-24">
+        <div className="flex items-center justify-between mb-4 text-xs text-[#1A1F33]/60">
+          <span>{filtered.length} ta natija topildi</span>
+        </div>
+
         {filtered.length === 0 ? (
-          <div className="py-20 text-center text-xs text-[#8E9F97]">
-            <p>Qidiruvingiz bo‘yicha mahsulot topilmadi.</p>
-            <p className="text-[10px] text-[#63736B] mt-1">Boshqa so‘z bilan qidirib ko‘ring.</p>
+          <div className="py-20 text-center text-xs text-[#1A1F33]/60">
+            <Search className="w-10 h-10 mx-auto text-[#1A1F33]/20 mb-2 stroke-[1.5]" />
+            <p className="font-medium text-[#1A1F33]">Hech narsa topilmadi</p>
+            <p className="text-[11px] text-[#1A1F33]/50 mt-1">
+              Boshqa so‘z yoki toifa orqali qidirib ko‘ring.
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {filtered.map((product) => (
               <ProductCard
                 key={product.id}
@@ -143,4 +122,3 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     </div>
   );
 }
-

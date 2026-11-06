@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CheckCircle2, Package, ArrowRight, MessageCircle } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { Order } from '@/types';
 import { formatUZS } from '@/lib/utils';
 import { triggerHaptic } from '@/lib/telegram';
@@ -16,41 +16,38 @@ export function OrderSuccessModal({ order, onClose, onViewOrders }: OrderSuccess
   if (!order) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in zoom-in-95 duration-200">
-      <div className="bg-[#0b1713] border border-luxury-gold/40 w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden">
-        {/* Glow */}
-        <div className="absolute -top-12 -left-12 w-32 h-32 rounded-full bg-luxury-gold/20 blur-2xl pointer-events-none" />
-
-        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 mx-auto flex items-center justify-center mb-4 shadow-lg animate-bounce">
-          <CheckCircle2 className="w-9 h-9" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in zoom-in-95 duration-200 select-none">
+      <div className="bg-white text-[#1A1F33] w-full max-w-sm rounded-[32px] p-6 text-center shadow-2xl relative overflow-hidden">
+        <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center mb-4 shadow-sm">
+          <CheckCircle2 className="w-8 h-8" />
         </div>
 
-        <span className="text-[10px] tracking-widest uppercase font-extrabold text-luxury-gold">
+        <span className="text-[10px] tracking-widest uppercase font-bold text-[#1A1F33]/50">
           Muvaffaqiyatli qabul qilindi
         </span>
-        <h3 className="text-xl font-serif font-bold text-white mt-1">
+        <h3 className="text-lg font-serif font-bold text-[#1A1F33] mt-1">
           Rahmat, buyurtmangiz olindi!
         </h3>
-        <p className="text-xs text-[#8E9F97] mt-1.5 leading-relaxed">
-          Buyurtma raqami: <strong className="text-white font-mono">#{order.id}</strong>.
-          Operatorlarimiz tez orada tasdiqlash uchun bog‘lanishadi.
+        <p className="text-xs text-[#1A1F33]/60 mt-1 leading-relaxed">
+          Buyurtma kodi: <strong className="text-[#1A1F33] font-mono">#{order.id}</strong>.
+          Menejerimiz tez orada bog‘lanadi.
         </p>
 
         {/* Info card */}
-        <div className="my-5 p-3.5 rounded-2xl bg-luxury-card/70 border border-white/5 text-left text-xs space-y-1.5">
+        <div className="my-5 p-3.5 rounded-2xl bg-[#FBF8F3] border border-black/5 text-left text-xs space-y-1.5">
           <div className="flex justify-between">
-            <span className="text-[#8E9F97]">Jami to‘lov:</span>
-            <span className="font-bold text-luxury-gold">{formatUZS(order.totalPrice)}</span>
+            <span className="text-[#1A1F33]/60">Jami to‘lov:</span>
+            <span className="font-bold text-[#1A1F33]">{formatUZS(order.totalPrice)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#8E9F97]">Yetkazish:</span>
-            <span className="text-white truncate max-w-[170px]">
+            <span className="text-[#1A1F33]/60">Manzil/Filial:</span>
+            <span className="text-[#1A1F33] font-medium truncate max-w-[170px]">
               {order.deliveryType === 'pickup' ? order.branchName : order.address}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#8E9F97]">To‘lov turi:</span>
-            <span className="font-semibold text-white uppercase">{order.paymentMethod}</span>
+            <span className="text-[#1A1F33]/60">To‘lov usuli:</span>
+            <span className="font-semibold text-[#1A1F33] uppercase">{order.paymentMethod}</span>
           </div>
         </div>
 
@@ -58,27 +55,26 @@ export function OrderSuccessModal({ order, onClose, onViewOrders }: OrderSuccess
         <div className="space-y-2">
           <button
             onClick={() => {
-              triggerHaptic('light');
+              triggerHaptic('medium');
               onViewOrders();
             }}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-gold-glow hover:brightness-105 transition"
+            className="w-full py-3.5 rounded-full bg-[#1A1F33] text-[#FAE9D7] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition"
           >
-            <span>Buyurtmani kuzatish</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Buyurtmalarni ko‘rish</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
 
-          <a
-            href="https://t.me/raffini_uzbekistan"
-            target="_blank"
-            rel="noreferrer"
-            className="w-full py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 font-semibold text-xs flex items-center justify-center gap-1.5 hover:bg-white/10 transition"
+          <button
+            onClick={() => {
+              triggerHaptic('light');
+              onClose();
+            }}
+            className="w-full py-3 rounded-full text-xs font-semibold text-[#1A1F33]/70 hover:bg-black/5 transition"
           >
-            <MessageCircle className="w-3.5 h-3.5 text-luxury-gold" />
-            Admin bilan bog‘lanish
-          </a>
+            Bosh sahifaga qaytish
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
