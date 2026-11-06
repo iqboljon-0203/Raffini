@@ -26,3 +26,4 @@ export function LuxuryMarquee() {
     </div>
   );
 }
+
