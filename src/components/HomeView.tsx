@@ -8,6 +8,11 @@ import { RAFFINI_PRODUCTS, CATEGORIES } from '@/data/products';
 import { useStore } from '@/context/StoreContext';
 import { formatUZS, cn } from '@/lib/utils';
 import { triggerHaptic } from '@/lib/telegram';
+import { StoriesModal, RAFFINI_STORIES } from './StoriesModal';
+import { InteractiveLookbook } from './InteractiveLookbook';
+import { LuxuryMarquee } from './LuxuryMarquee';
+import { VipPromoBanner } from './VipPromoBanner';
+import { LiveBoutiqueToast } from './LiveBoutiqueToast';
 
 interface HomeViewProps {
   onSearchClick: () => void;
@@ -17,15 +22,49 @@ interface HomeViewProps {
 export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
   const { setSelectedProduct, isWishlisted, toggleWishlist } = useStore();
   const [selectedCat, setSelectedCat] = useState('Barchasi');
+  const [isStoriesOpen, setIsStoriesOpen] = useState(false);
+  const [storyIndex, setStoryIndex] = useState(0);
 
   const filteredProducts = RAFFINI_PRODUCTS.filter(
     (p) => selectedCat === 'Barchasi' || p.category === selectedCat
   );
 
   return (
-    <div className="max-w-md mx-auto px-5 pb-28 pt-2 select-none">
-      {/* 1. Minimalist Editorial Headline (Matching Reference Screen 2) */}
-      <div className="pt-2 pb-5">
+    <div className="max-w-md mx-auto px-5 pb-32 pt-1 select-none text-[#1A1F33]">
+      {/* 1. Interactive Story Highlights (Instagram / TMA Luxury Stories) */}
+      <div className="pt-1 pb-4">
+        <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar -mx-5 px-5">
+          {RAFFINI_STORIES.map((story, idx) => (
+            <button
+              key={story.id}
+              onClick={() => {
+                triggerHaptic('light');
+                setStoryIndex(idx);
+                setIsStoriesOpen(true);
+              }}
+              className="flex flex-col items-center flex-shrink-0 group active:scale-95 transition-transform"
+            >
+              {/* Gradient Luxury Ring */}
+              <div className="relative w-15 h-15 rounded-full p-[2px] bg-gradient-to-tr from-[#1A1F33] via-[#FAE9D7] to-[#1A1F33] group-hover:shadow-md transition-all">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-[#ECE8E1] border-2 border-white">
+                  <Image
+                    src={story.image}
+                    alt={story.title}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+              <span className="text-[10px] text-[#1A1F33]/80 font-medium mt-1.5 truncate max-w-[62px]">
+                {story.title.split(' ')[0]} {story.title.split(' ')[1] || ''}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. Minimalist Editorial Headline */}
+      <div className="pt-1 pb-4">
         <h1 className="text-2xl sm:text-3xl font-serif text-[#1A1F33] leading-tight tracking-tight">
           Kashf eting <br />
           <span className="font-bold font-serif text-[#1A1F33]">
@@ -34,8 +73,8 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
         </h1>
       </div>
 
-      {/* 2. Category Selector Pills (Matching Reference Screen 2) */}
-      <div className="flex gap-2 overflow-x-auto pb-6 no-scrollbar -mx-5 px-5">
+      {/* 3. Category Selector Pills */}
+      <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-5 px-5">
         {CATEGORIES.map((cat) => {
           const isActive = selectedCat === cat;
           return (
@@ -58,12 +97,30 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
         })}
       </div>
 
-      {/* 3. Minimalist 2-Column Product Grid (Matching Reference Screen 2) */}
+      {/* 4. Kinetic Luxury Marquee Ribbon */}
+      <LuxuryMarquee />
+
+      {/* 5. Interactive Editorial Lookbook with Hotspots */}
+      <InteractiveLookbook />
+
+      {/* 6. VIP Promokod Voucher Card */}
+      <VipPromoBanner />
+
+      {/* 7. Section Title */}
+      <div className="flex items-center justify-between mb-4 mt-6 px-1">
+        <h3 className="text-sm font-serif font-bold text-[#1A1F33] tracking-tight">
+          {selectedCat === 'Barchasi' ? 'Sara To‘plam' : selectedCat}
+        </h3>
+        <span className="text-xs text-[#1A1F33]/60 font-medium">
+          {filteredProducts.length} ta libos
+        </span>
+      </div>
+
+      {/* 8. Minimalist 2-Column Product Grid */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-6">
         {filteredProducts.map((product, idx) => {
           const liked = isWishlisted(product.id);
           const mainImage = product.images[0] || '/images/logo.png';
-          // Staggered heights for editorial look if desired, or uniform elegant aspect
           const isTaller = idx % 3 === 1;
 
           return (
@@ -95,7 +152,7 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
                 />
               </div>
 
-              {/* Card Meta: Price Left, Heart Right, Title Underneath (Exact Reference Match) */}
+              {/* Card Meta: Price Left, Heart Right, Title Underneath */}
               <div className="mt-2.5 px-0.5 flex flex-col">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-[#1A1F33] tracking-tight">
@@ -108,7 +165,7 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
                       triggerHaptic('light');
                       toggleWishlist(product.id);
                     }}
-                    aria-label="Sevimlilarga qo‘shish"
+                    aria-label="Sevimlilar"
                     className="p-1 -mr-1 text-[#1A1F33]/60 hover:text-rose-500 active:scale-90 transition"
                   >
                     <Heart
@@ -128,6 +185,18 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
           );
         })}
       </div>
+
+      {/* 9. Fullscreen Interactive Stories Viewer */}
+      <StoriesModal
+        isOpen={isStoriesOpen}
+        initialIndex={storyIndex}
+        onClose={() => setIsStoriesOpen(false)}
+        onSelectCategory={(cat) => setSelectedCat(cat)}
+        onOpenBranches={onBranchesClick}
+      />
+
+      {/* 10. Floating Live Boutique Activity Toast */}
+      <LiveBoutiqueToast />
     </div>
   );
 }

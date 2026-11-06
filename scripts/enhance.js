@@ -65,3 +65,4 @@ fs.writeFileSync('./src/data/products.json', JSON.stringify(updated, null, 2), '
 const tsContent = 'import { Product } from \'@/types\';\n\nexport const RAFFINI_PRODUCTS: Product[] = ' + JSON.stringify(updated, null, 2) + ';\n\nexport const CATEGORIES = [\n  \'Barchasi\',\n  \'Kurtkalar & Vitirovka\',\n  \'Kostyumlar\',\n  \'Oyoq kiyimlar\',\n  \'Sviter & Trikotaj\',\n  \'To‘plamlar\',\n  \'Futbolka & Polo\',\n  \'Klassik Shimlar\',\n  \'Aksessuarlar\'\n];\n';
 fs.writeFileSync('./src/data/products.ts', tsContent, 'utf8');
 console.log('Successfully updated all 30 products into 100% pure Uzbek!');
+
