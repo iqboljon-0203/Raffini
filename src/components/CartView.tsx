@@ -238,3 +238,4 @@ export function CartView({ onCheckout }: CartViewProps) {
     </div>
   );
 }
+

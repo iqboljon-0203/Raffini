@@ -56,3 +56,4 @@ export interface Branch {
   workHours: string;
   metro?: string;
 }
+

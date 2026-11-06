@@ -71,3 +71,4 @@ export function sendTelegramData(data: any) {
     tg.sendData(typeof data === 'string' ? data : JSON.stringify(data));
   }
 }
+

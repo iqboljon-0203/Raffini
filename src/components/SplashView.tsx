@@ -95,3 +95,4 @@ export function SplashView({ onStart }: SplashViewProps) {
     </div>
   );
 }
+

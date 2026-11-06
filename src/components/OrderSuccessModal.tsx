@@ -81,3 +81,4 @@ export function OrderSuccessModal({ order, onClose, onViewOrders }: OrderSuccess
     </div>
   );
 }
+

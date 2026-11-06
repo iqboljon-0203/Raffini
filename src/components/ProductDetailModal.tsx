@@ -283,3 +283,4 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
     </div>
   );
 }
+

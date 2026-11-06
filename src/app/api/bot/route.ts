@@ -29,6 +29,43 @@ async function sendTelegramMessage(chatId: number | string, text: string, replyM
   }
 }
 
+async function editTelegramMessage(chatId: number | string, messageId: number, text: string, replyMarkup?: any) {
+  if (!BOT_TOKEN) return null;
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        message_id: messageId,
+        text,
+        parse_mode: 'HTML',
+        reply_markup: replyMarkup,
+      }),
+    });
+    return await res.json();
+  } catch (err) {
+    console.error('Error editing TG message:', err);
+    return null;
+  }
+}
+
+async function answerCallbackQuery(callbackQueryId: string, text?: string) {
+  if (!BOT_TOKEN) return null;
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        callback_query_id: callbackQueryId,
+        text,
+        show_alert: false,
+      }),
+    });
+  } catch (err) {}
+}
+
 export async function POST(req: NextRequest) {
   try {
     const update = await req.json();
@@ -37,10 +74,38 @@ export async function POST(req: NextRequest) {
     if (update.message) {
       const msg = update.message;
       const chatId = msg.chat.id;
+      const chatType = msg.chat.type; // 'private', 'group', 'supergroup', 'channel'
       const text = msg.text || '';
       const firstName = msg.from?.first_name || 'Hurmatli mijoz';
 
-      // /start command
+      // Bot added to group
+      if (msg.new_chat_members) {
+        const welcomeGroupMsg = `
+🎉 <b>RAFFINI do‘koni boti guruhga muvaffaqiyatli qo‘shildi!</b>
+
+Ushbu guruhning ID raqami:
+<code>${chatId}</code>
+
+<i>Barcha yangi buyurtmalar ushbu guruhga tushishi uchun:</i>
+Vercel da <b>TELEGRAM_GROUP_ID</b> o‘zgaruvchisiga aynan shu <code>${chatId}</code> raqamini kiriting.
+        `.trim();
+        await sendTelegramMessage(chatId, welcomeGroupMsg);
+        return NextResponse.json({ ok: true });
+      }
+
+      // /id command (Works in both private chats and groups)
+      if (text.startsWith('/id')) {
+        const idMsg = `
+📍 <b>Ushbu chat / guruh ID raqami:</b>
+<code>${chatId}</code>
+
+${chatType !== 'private' ? 'Buyurtmalar shu guruhga kelib tushishi uchun Vercel da <b>TELEGRAM_GROUP_ID</b> ga ushbu raqamni kiriting.' : ''}
+        `.trim();
+        await sendTelegramMessage(chatId, idMsg);
+        return NextResponse.json({ ok: true });
+      }
+
+      // Private chat commands
       if (text.startsWith('/start')) {
         const welcomeText = `
 👔 <b>Assalomu alaykum, ${firstName}!</b>
@@ -125,6 +190,7 @@ Do‘konni ochish uchun quyidagi <b>"🛍 Do‘konni ochish"</b> tugmasini bosin
 /start — Botni ishga tushirish va menyu
 /shop — Do‘konni ochish (Mini App)
 /filiallar — 11 ta filial manzillari va telefonlar
+/id — Ushbu chat yoki guruhning ID raqamini aniqlash
 /help — Yordam ma’lumotlari
 
 👨‍💻 <b>Admin:</b> @raffini_uzbekistan
@@ -134,37 +200,111 @@ Do‘konni ochish uchun quyidagi <b>"🛍 Do‘konni ochish"</b> tugmasini bosin
         return NextResponse.json({ ok: true });
       }
 
-      // Web App data received
-      if (msg.web_app_data) {
-        try {
-          const data = JSON.parse(msg.web_app_data.data);
-          await sendTelegramMessage(
-            chatId,
-            `✅ <b>Rahmat! Buyurtmangiz qabul qilindi.</b>\nBuyurtma raqami: <code>#${data.id || 'RF'}</code>\nOperatorlarimiz tez orada bog‘lanishadi.`
-          );
-        } catch (e) {
-          // ignore
-        }
-        return NextResponse.json({ ok: true });
+      // Only reply default in private chat
+      if (chatType === 'private') {
+        await sendTelegramMessage(
+          chatId,
+          `Katalogdagi mahsulotlarni ko‘rish va buyurtma berish uchun quyidagi tugmani bosing:`,
+          {
+            inline_keyboard: [
+              [{ text: "🛍 Do‘konni ochish (Web App)", web_app: { url: WEBAPP_URL } }],
+            ],
+          }
+        );
       }
-
-      // Default reply
-      await sendTelegramMessage(
-        chatId,
-        `Katalogdagi mahsulotlarni ko‘rish va buyurtma berish uchun quyidagi tugmani bosing:`,
-        {
-          inline_keyboard: [
-            [{ text: "🛍 Do‘konni ochish (Web App)", web_app: { url: WEBAPP_URL } }],
-          ],
-        }
-      );
     }
 
     // 2. Callback query handling
     if (update.callback_query) {
       const cb = update.callback_query;
       const chatId = cb.message.chat.id;
-      const data = cb.data;
+      const messageId = cb.message.message_id;
+      const currentText = cb.message.text || '';
+      const data = cb.data || '';
+      const operatorName = cb.from?.username
+        ? `@${cb.from.username}`
+        : `${cb.from?.first_name || 'Menejer'}`;
+
+      // Order status updates in the group
+      if (data.startsWith('ord_')) {
+        const parts = data.split('_'); // ['ord', action, orderId, userId]
+        const action = parts[1];
+        const orderId = parts[2];
+        const customerTgId = parts[3];
+
+        if (action === 'accept') {
+          await answerCallbackQuery(cb.id, `Buyurtma #${orderId} qabul qilindi!`);
+
+          // Update message text in the group
+          const updatedText = currentText.replace(
+            /⏳ Holati:.*$/m,
+            `⏳ Holati: ✅ <b>QABUL QILINDI</b> (Menejer: ${operatorName})`
+          );
+
+          await editTelegramMessage(chatId, messageId, updatedText, {
+            inline_keyboard: [
+              cb.message.reply_markup?.inline_keyboard[0] || [],
+              [
+                { text: '🚚 Yo‘lga chiqarish', callback_data: `ord_ship_${orderId}_${customerTgId}` },
+                { text: '🏁 Yakunlash', callback_data: `ord_done_${orderId}_${customerTgId}` },
+              ],
+            ],
+          });
+
+          // Notify customer in private chat
+          if (customerTgId) {
+            await sendTelegramMessage(
+              customerTgId,
+              `✅ <b>Buyurtmangiz (#${orderId}) qabul qilindi!</b>\nMenejerimiz buyurtmani filialdan tayyorlashni boshladi.`
+            );
+          }
+        } else if (action === 'ship') {
+          await answerCallbackQuery(cb.id, `Buyurtma #${orderId} yo'lga chiqdi!`);
+
+          const updatedText = currentText.replace(
+            /⏳ Holati:.*$/m,
+            `⏳ Holati: 🚚 <b>YO‘LGA CHIQARILDI</b> (Menejer: ${operatorName})`
+          );
+
+          await editTelegramMessage(chatId, messageId, updatedText, {
+            inline_keyboard: [
+              cb.message.reply_markup?.inline_keyboard[0] || [],
+              [
+                { text: '🏁 Yakunlash', callback_data: `ord_done_${orderId}_${customerTgId}` },
+              ],
+            ],
+          });
+
+          if (customerTgId) {
+            await sendTelegramMessage(
+              customerTgId,
+              `🚚 <b>Buyurtmangiz (#${orderId}) yo‘lga chiqdi!</b>\nKuryerimiz tez orada siz bilan bog‘lanadi.`
+            );
+          }
+        } else if (action === 'done') {
+          await answerCallbackQuery(cb.id, `Buyurtma #${orderId} muvaffaqiyatli yakunlandi!`);
+
+          const updatedText = currentText.replace(
+            /⏳ Holati:.*$/m,
+            `⏳ Holati: 🏁 <b>YAKUNLANDI (Muvaffaqiyatli topshirildi)</b>`
+          );
+
+          await editTelegramMessage(chatId, messageId, updatedText, {
+            inline_keyboard: [
+              cb.message.reply_markup?.inline_keyboard[0] || [],
+            ],
+          });
+
+          if (customerTgId) {
+            await sendTelegramMessage(
+              customerTgId,
+              `🎉 <b>Buyurtmangiz topshirildi!</b>\nRAFFINI liboslarini tanlaganingiz uchun tashakkur! 👔`
+            );
+          }
+        }
+
+        return NextResponse.json({ ok: true });
+      }
 
       if (data === 'branches_list') {
         let branchMsg = `🏢 <b>RAFFINI DO‘KONLARI (11 TA FILIAL):</b>\n\n`;
@@ -199,6 +339,7 @@ Do‘konni ochish uchun quyidagi <b>"🛍 Do‘konni ochish"</b> tugmasini bosin
         });
       }
 
+      await answerCallbackQuery(cb.id);
       return NextResponse.json({ ok: true });
     }
 

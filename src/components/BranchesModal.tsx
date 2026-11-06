@@ -100,3 +100,4 @@ export function BranchesModal({ isOpen, onClose }: BranchesModalProps) {
     </div>
   );
 }
+

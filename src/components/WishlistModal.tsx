@@ -69,3 +69,4 @@ export function WishlistModal({ isOpen, onClose }: WishlistModalProps) {
     </div>
   );
 }
+

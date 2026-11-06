@@ -226,3 +226,4 @@ export function ProfileView({ onBranchesClick, onWishlistClick }: ProfileViewPro
     </div>
   );
 }
+

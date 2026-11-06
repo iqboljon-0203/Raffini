@@ -114,3 +114,4 @@ export const RAFFINI_INFO = {
   workHours: 'Har kuni 09:00 dan 23:00 gacha',
   branchesCount: 11
 };
+

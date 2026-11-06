@@ -1,78 +1,60 @@
 # RAFFINI — Telegram Web App & Bot Webhook Deploy Qo‘llanmasi 🚀
 
-Ushbu loyiha **RAFFINI** erkaklar kiyimlari do‘koni uchun tayyorlangan premium darajadagi **Telegram Mini App (TMA)** va **Telegram Bot Webhook** tizimidir.
+Ushbu loyiha **RAFFINI** erkaklar kiyimlari do‘koni uchun tayyorlangan premium darajadagi **Telegram Mini App (TMA)** va **Telegram Guruhga Buyurtma Tushuvchi Bot Webhook** tizimidir.
 
 ---
 
-## 💎 Loyihada Nimalar Bajarildi:
+## 👥 Telegram Guruhga Buyurtmalarni Ulash:
 
-1. **Haqiqiy Mahsulotlar Bazasi:**
-   - [t.me/raffini_uz](https://t.me/raffini_uz) kanalidan 30 dan ortiq real tovarlar (kurtkalar, vitirovkalar, kostyumlar, poyabzallar, sviterlar, ko‘ylaklar, shimlar) yuqori sifatli rasmlari, narxlari va tavsiflari bilan saqlandi.
-   - Rasmlar lokal `public/images/products/` papkasiga yuklab olingan, shuning uchun ular hech qachon eskirmaydi yoki o‘chib ketmaydi.
+1. Telegram da buyurtmalar tushishi uchun yangi guruh oching (masalan: **"RAFFINI Buyurtmalar"**).
+2. O‘zingizning botingizni ushbu guruhga **Admin** qilib qo‘shing.
+3. Bot guruhga qo‘shilishi bilan guruhning **ID raqamini** avtomatik chiqarib beradi (masalan: `-1002345678901`).
+   *(Agar chiqmasa, guruhda `/id` deb yozsangiz, bot darhol guruh ID sini yozib beradi).*
+4. Vercel da **Environment Variables** ga quyidagini qo‘shasiz:
+   `TELEGRAM_GROUP_ID` = `-1002345678901`
 
-2. **Dizayn Reference (Reference Image bo‘yicha):**
-   - Zümrad yashil (Emerald Luxury Dark) va oltin (Gold Champagne) ranglar palitrasi.
-   - Splash / Onboarding ekrani.
-   - Asosiy sahifa (Hero Banner, Yangi mavsum 2026, VIP promokod banneri, Trend to‘plam, Yangi kelganlar).
-   - Katalog sahifasi (Toifalar bo‘yicha filtr, O‘lchamlar (S, M, L, XL, XXL, 3XL, 39-44) va saralash).
-   - Mahsulot sahifasi (Fotogalereya, o‘lcham va rang tanlash, filialda mavjudligi, savatga qo‘shish).
-   - Savat va Promokod (`RAFFINI` - 10% chegirma).
-   - Buyurtmani rasmiylashtirish (11 ta filialdan olib ketish yoki Kuryer orqali yetkazish, Click/Payme/Naqd).
-   - Buyurtmalar tarixi va real vaqtda kuzatish (Pending -> Shipping -> Delivered).
-   - Toshkent bo‘ylab 11 ta filial xaritasi, manzillari, telefonlari va ish vaqtlari (09:00 - 23:00).
-   - Profil (Telegram user avatari, ismi, VIP Premium nishoni).
-
-3. **Telegram Bot Webhook & Serverless:**
-   - `/api/bot` — Telegram webhook endpointi (`/start`, `/shop`, `/filiallar`, `/help`).
-   - `/api/order` — Yangi buyurtma tushganda do‘kon adminiga to‘liq ma’lumotlarni yuboruvchi va mijozga tasdiq xabarini jo‘natuvchi endpoint.
-   - `/api/setup-webhook` — 1 bosqichda brauzer orqali bot webhookini ulovchi yordamchi.
+### Guruhdagi Imkoniyatlar:
+- Har bir buyurtma tushganda tovarlar rasmi, narxi, o‘lchami, rangi, filiali, mijoz ismi va telefoni chiroyli kartochka bo‘lib tushadi.
+- Guruh a'zolari bir bosishda:
+  - `[📞 Tel: +998...]` — mijozga qo‘ng‘iroq qila oladi.
+  - `[👤 Telegram Profil]` — mijozning shaxsiy Telegramiga yoza oladi.
+  - `[✅ Qabul qilish]` — bosilganda guruhda *"Qabul qilindi (Menejer: @ism)"* deb yangilanadi va mijozning o‘ziga ham *"Buyurtmangiz qabul qilindi!"* deb xabar boradi.
+  - `[🚚 Yo‘lga chiqarish]` — bosilganda mijozga *"Buyurtmangiz yo‘lga chiqdi!"* deb xabar boradi.
+  - `[🏁 Yakunlash]` — buyurtma muvaffaqiyatli topshirilganini belgilaydi.
 
 ---
 
 ## 🌐 1-QADAM: Vercel ga Deploy Qilish
 
-### Variant A: GitHub orqali (Tavsiya etiladi)
-
-1. Loyihani o‘zingizning GitHub hisobingizga yuklang:
-   ```bash
-   git init
-   git add .
-   git commit -m "Raffini Telegram Web App & Bot"
-   git branch -M main
-   git remote add origin https://github.com/USERNAME/raffini.git
-   git push -u origin main
-   ```
-
-2. [Vercel.com](https://vercel.com) ga kiring va **"Add New Project"** tugmasini bosing.
-3. GitHub dagi `raffini` reponi tanlang va **Deploy** tugmasini bosing.
-4. Vercel sizga bepul domen beradi, masalan: `https://raffini-shop.vercel.app`
-
-### Variant B: Vercel CLI orqali to‘g‘ridan-to‘g‘ri terminaldan
-
+### GitHub orqali (Tavsiya etiladi):
 ```bash
-npx vercel
+git add .
+git commit -m "feat: telegram group orders integration"
+git push origin main
 ```
-Savollarga `y` va `Enter` bosib davom eting. Tayyor!
+1. [Vercel.com](https://vercel.com) ga kiring va GitHub dagi reponi tanlang.
+2. **Deploy** tugmasini bosing.
+3. Vercel sizga bepul manzil beradi (masalan: `https://raffini.vercel.app`).
 
 ---
 
 ## ⚙️ 2-QADAM: Vercel Environment Variables (O‘zgaruvchilar)
 
-Vercel loyihangiz sozlamalariga kiring: **Settings -> Environment Variables** va quyidagilarni kiriting:
+Vercel sozlamalarida (`Settings -> Environment Variables`) quyidagilarni kiriting:
 
 | O‘zgaruvchi nomi | Qiymati | Izoh |
 |---|---|---|
 | `TELEGRAM_BOT_TOKEN` | `7123456789:AAH...` | @BotFather dan olgan bot tokeningiz |
-| `NEXT_PUBLIC_APP_URL` | `https://sizning-saytingiz.vercel.app` | Verceldagi sayt manzilingiz |
-| `TELEGRAM_ADMIN_CHAT_ID` | `123456789` | Yangi buyurtmalar borishi kerak bo‘lgan Telegram ID |
+| `NEXT_PUBLIC_APP_URL` | `https://raffini.vercel.app` | Vercel bergan sayt manzilingiz |
+| `TELEGRAM_GROUP_ID` | `-1002345678901` | Buyurtmalar tushadigan Telegram guruh ID raqami |
 
-*(O‘zgaruvchilarni kiritgach, Vercel da **Redeploy** tugmasini bosing)*.
+*(O‘zgaruvchilarni saqlagach, Vercel da **Redeploy** tugmasini bosing)*.
 
 ---
 
-## 🤖 3-QADAM: Telegram Bot va Webhookni Ulash
+## 🤖 3-QADAM: Webhookni 1 Bosishda Ulash
 
-Deploy bo‘lganidan so‘ng, brauzeringizda quyidagi manzilni oching:
+Deploy bo‘lgach, brauzeringizda quyidagi manzilni oching:
 
 ```
 https://sizning-saytingiz.vercel.app/api/setup-webhook?token=BOT_TOKENINGIZ
@@ -85,20 +67,15 @@ Ekranda:
   "message": "Webhook muvaffaqiyatli ulandi! Endi botingiz to‘liq ishlaydi."
 }
 ```
-yozuvi chiqadi. Shu bilan Telegram botingiz webhook rejimida Vercel da 24/7 rejimda bepul ishlay boshlaydi!
+yozuvi chiqadi. Shu bilan botingiz Vercel serverless da 24/7 rejimda bepul ishlay boshlaydi!
 
 ---
 
 ## 📱 4-QADAM: BotFather da Web App Tugmasini Sozlash
 
-Mijozlar botga kirishi bilanoq pastda **"🛍 Do‘kon"** tugmasi turishi uchun:
+1. Telegram da [@BotFather](https://t.me/BotFather) ga kiring ➜ `/mybots` ➜ Botingizni tanlang.
+2. **Bot Settings** ➜ **Menu Button** ➜ **Configure menu button**.
+3. Vercel saytingiz manzilini yuborasiz: `https://sizning-saytingiz.vercel.app`
+4. Tugma nomiga yozasiz: `🛍 Do‘konni ochish`
 
-1. Telegram da [@BotFather](https://t.me/BotFather) ga kiring.
-2. `/mybots` buyrug‘ini yuboring va botingizni tanlang.
-3. **Bot Settings** -> **Menu Button** -> **Configure menu button** ni tanlang.
-4. URL so‘raganda Vercel linkingizni yuboring:
-   `https://sizning-saytingiz.vercel.app`
-5. Tugma nomiga yozing:
-   `🛍 Do‘konni ochish`
-
-Tayyor! Endi istalgan foydalanuvchi botga kirganda to‘liq ekranli ultra-premium Raffini do‘koni ochiladi!
+Tayyor! Endi mijozlar botga kirganda to‘liq ekranli luxury Raffini do‘koni ochiladi, berilgan buyurtmalar esa avtomatik ravishda Telegram guruhingizga tushadi!

@@ -190,3 +190,4 @@ export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
     </div>
   );
 }
+

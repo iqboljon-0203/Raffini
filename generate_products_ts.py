@@ -138,3 +138,4 @@ with open('src/data/products.ts', 'w', encoding='utf-8') as f:
     f.write(ts_content)
 
 print(f"Generated src/data/products.ts with {len(refined)} products!")
+

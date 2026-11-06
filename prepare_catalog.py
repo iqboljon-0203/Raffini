@@ -171,3 +171,4 @@ print(f"Successfully processed {len(formatted_products)} complete products with 
 
 with open('src/data/products.json', 'w', encoding='utf-8') as f:
     json.dump(formatted_products, f, ensure_ascii=False, indent=2)
+

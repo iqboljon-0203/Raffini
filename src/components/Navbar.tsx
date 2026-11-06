@@ -84,3 +84,4 @@ export function Navbar({ onSearchClick, onBranchesClick }: NavbarProps) {
     </header>
   );
 }
+
