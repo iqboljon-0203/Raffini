@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 import { RAFFINI_BRANCHES, RAFFINI_INFO } from '@/data/branches';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -27,6 +29,74 @@ async function sendTelegramMessage(chatId: number | string, text: string, replyM
     console.error('Error sending Telegram message:', error);
     return null;
   }
+}
+
+async function sendTelegramPhoto(
+  chatId: number | string,
+  photoPathOrUrl: string,
+  caption?: string,
+  replyMarkup?: any
+) {
+  if (!BOT_TOKEN) return null;
+
+  // 1. Try uploading local file directly via multipart FormData (Works offline / localhost / production)
+  try {
+    const localRelPath = photoPathOrUrl.startsWith('/') ? photoPathOrUrl.slice(1) : photoPathOrUrl;
+    const fullLocalPath = path.join(process.cwd(), localRelPath);
+    if (fs.existsSync(fullLocalPath)) {
+      const fileBuffer = fs.readFileSync(fullLocalPath);
+      const blob = new Blob([fileBuffer]);
+      const formData = new FormData();
+      formData.append('chat_id', String(chatId));
+      formData.append('photo', blob, 'welcome.jpg');
+      if (caption) {
+        formData.append('caption', caption);
+        formData.append('parse_mode', 'HTML');
+      }
+      if (replyMarkup) {
+        formData.append('reply_markup', JSON.stringify(replyMarkup));
+      }
+
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.ok) return data;
+      console.warn('sendPhoto multipart response not ok:', data);
+    }
+  } catch (err) {
+    console.warn('Local photo upload failed, attempting URL method:', err);
+  }
+
+  // 2. Fallback: Send public URL
+  try {
+    const photoUrl = photoPathOrUrl.startsWith('http')
+      ? photoPathOrUrl
+      : `${WEBAPP_URL}${photoPathOrUrl.startsWith('/') ? '' : '/'}${photoPathOrUrl}`;
+
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        photo: photoUrl,
+        caption,
+        parse_mode: 'HTML',
+        reply_markup: replyMarkup,
+      }),
+    });
+    const data = await res.json();
+    if (data.ok) return data;
+  } catch (err) {
+    console.warn('URL sendPhoto failed:', err);
+  }
+
+  // 3. Fallback: If Telegram photo methods fail, send message with caption
+  if (caption) {
+    return await sendTelegramMessage(chatId, caption, replyMarkup);
+  }
+  return null;
 }
 
 async function editTelegramMessage(chatId: number | string, messageId: number, text: string, replyMarkup?: any) {
@@ -152,7 +222,7 @@ Do‘konni ochish uchun quyidagi <b>"🛍 Do‘konni ochish"</b> tugmasini bosin
           ],
         };
 
-        await sendTelegramMessage(chatId, welcomeText, keyboard);
+        await sendTelegramPhoto(chatId, 'public/images/bot_welcome.jpg', welcomeText, keyboard);
         return NextResponse.json({ ok: true });
       }
 
