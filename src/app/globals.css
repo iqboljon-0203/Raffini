@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #07100D;
+  background-color: #0D1017;
   color: #ffffff;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -21,21 +21,20 @@ body {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism utility with original Raffini palette */
 .glass-panel {
-  background: rgba(18, 34, 27, 0.75);
+  background: rgba(31, 37, 56, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(250, 233, 215, 0.15);
 }
 
 /* Custom selection */
 ::selection {
-  background: #d4af37;
-  color: #07100D;
+  background: #FAE9D7;
+  color: #1A1F33;
 }
-

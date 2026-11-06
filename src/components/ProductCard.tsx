@@ -36,10 +36,10 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div
       onClick={handleClick}
-      className="group relative bg-[#12221b] border border-luxury-gold/15 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-luxury-gold/40 hover:shadow-luxury hover:-translate-y-0.5 active:scale-[0.98]"
+      className="group relative bg-[#1A1F33] border border-[#FAE9D7]/15 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-300 hover:border-[#FAE9D7]/40 hover:shadow-luxury hover:-translate-y-0.5 active:scale-[0.98]"
     >
       {/* Image container */}
-      <div className="relative w-full aspect-[4/5] bg-[#0d1814] overflow-hidden">
+      <div className="relative w-full aspect-[4/5] bg-[#141928] overflow-hidden">
         <Image
           src={mainImage}
           alt={product.title}
@@ -50,11 +50,11 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
         />
 
         {/* Gradient shadow overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#12221b] via-transparent to-black/30 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1A1F33] via-transparent to-black/30 pointer-events-none" />
 
         {/* Discount Badge */}
         {product.discountPercent && product.discountPercent > 0 && (
-          <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-luxury-gold to-[#f3cf7a] text-[#091310] text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
+          <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
             -{product.discountPercent}%
           </div>
         )}
@@ -74,7 +74,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
 
         {/* Filial / tag pill */}
         <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-          <span className="text-[9px] text-white/90 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-md truncate max-w-[85%] font-light">
+          <span className="text-[9px] text-[#FAE9D7] bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-md truncate max-w-[85%] font-medium">
             {product.category}
           </span>
         </div>
@@ -84,32 +84,32 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
       <div className="p-3 flex flex-col justify-between flex-1">
         <div>
           {/* Title */}
-          <h3 className="text-white text-xs sm:text-sm font-medium line-clamp-1 group-hover:text-luxury-gold transition-colors">
+          <h3 className="text-white text-xs sm:text-sm font-medium line-clamp-1 group-hover:text-[#FAE9D7] transition-colors">
             {product.title}
           </h3>
 
           {/* Rating */}
-          <div className="flex items-center gap-1 mt-1 text-[11px] text-luxury-gold">
-            <Star className="w-3 h-3 fill-luxury-gold" />
+          <div className="flex items-center gap-1 mt-1 text-[11px] text-[#FAE9D7]">
+            <Star className="w-3 h-3 fill-[#FAE9D7]" />
             <span className="font-semibold text-white/90">{product.rating}</span>
-            <span className="text-[#7A8881] text-[10px]">({product.reviewsCount})</span>
+            <span className="text-[#A0AEC0] text-[10px]">({product.reviewsCount})</span>
           </div>
         </div>
 
         {/* Price & Action */}
         <div className="mt-2.5 pt-2 border-t border-white/5 flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="text-luxury-gold font-bold text-xs sm:text-sm tracking-tight">
+            <span className="text-[#FAE9D7] font-bold text-xs sm:text-sm tracking-tight">
               {formatUZS(product.price)}
             </span>
             {product.oldPrice && (
-              <span className="text-[#6D7D76] text-[10px] line-through -mt-0.5">
+              <span className="text-[#718096] text-[10px] line-through -mt-0.5">
                 {formatUZS(product.oldPrice)}
               </span>
             )}
           </div>
 
-          <div className="w-7 h-7 rounded-xl bg-luxury-gold/15 text-luxury-gold border border-luxury-gold/30 flex items-center justify-center transition-all group-hover:bg-luxury-gold group-hover:text-[#091310]">
+          <div className="w-7 h-7 rounded-xl bg-[#FAE9D7]/15 text-[#FAE9D7] border border-[#FAE9D7]/30 flex items-center justify-center transition-all group-hover:bg-[#FAE9D7] group-hover:text-[#1A1F33]">
             <Plus className="w-4 h-4" />
           </div>
         </div>
@@ -117,4 +117,3 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
     </div>
   );
 }
-

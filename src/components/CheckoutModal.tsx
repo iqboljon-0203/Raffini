@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, MapPin, Truck, CreditCard, CheckCircle2, ChevronRight, Phone, User as UserIcon, Building2 } from 'lucide-react';
+import { X, Building2, Truck, User as UserIcon, Phone } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { RAFFINI_BRANCHES } from '@/data/branches';
 import { formatUZS, cn } from '@/lib/utils';
@@ -74,7 +74,6 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
     };
 
     try {
-      // Send order to our serverless endpoint
       await fetch('/api/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,7 +84,6 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
       triggerHaptic('success');
       onSuccess(newOrder);
     } catch (err) {
-      // Local fallback
       addOrder(newOrder);
       onSuccess(newOrder);
     } finally {
@@ -95,12 +93,12 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in">
-      <div className="bg-[#0b1713] border border-luxury-gold/30 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      <div className="bg-[#1A1F33] border border-[#FAE9D7]/30 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#091310]">
+        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-[#141928]">
           <div>
             <h2 className="text-base font-serif font-bold text-white">Buyurtmani rasmiylashtirish</h2>
-            <span className="text-[11px] text-luxury-gold">Jami: {formatUZS(cartTotal)}</span>
+            <span className="text-[11px] text-[#FAE9D7]">Jami: {formatUZS(cartTotal)}</span>
           </div>
           <button
             onClick={() => {
@@ -136,11 +134,11 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                 className={cn(
                   "p-3 rounded-xl border flex flex-col items-center text-center transition-all",
                   deliveryType === 'pickup'
-                    ? "bg-luxury-gold/15 border-luxury-gold text-white shadow-gold-glow"
-                    : "bg-luxury-card border-white/5 text-[#8E9F97]"
+                    ? "bg-[#FAE9D7]/15 border-[#FAE9D7] text-white shadow-gold-glow"
+                    : "bg-[#141928] border-white/5 text-[#A0AEC0]"
                 )}
               >
-                <Building2 className={cn("w-5 h-5 mb-1.5", deliveryType === 'pickup' ? "text-luxury-gold" : "text-[#8E9F97]")} />
+                <Building2 className={cn("w-5 h-5 mb-1.5", deliveryType === 'pickup' ? "text-[#FAE9D7]" : "text-[#A0AEC0]")} />
                 <span className="font-bold text-xs">Filialdan olib ketish</span>
                 <span className="text-[10px] text-emerald-400 mt-0.5">11 ta filial (bepul)</span>
               </button>
@@ -154,11 +152,11 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                 className={cn(
                   "p-3 rounded-xl border flex flex-col items-center text-center transition-all",
                   deliveryType === 'delivery'
-                    ? "bg-luxury-gold/15 border-luxury-gold text-white shadow-gold-glow"
-                    : "bg-luxury-card border-white/5 text-[#8E9F97]"
+                    ? "bg-[#FAE9D7]/15 border-[#FAE9D7] text-white shadow-gold-glow"
+                    : "bg-[#141928] border-white/5 text-[#A0AEC0]"
                 )}
               >
-                <Truck className={cn("w-5 h-5 mb-1.5", deliveryType === 'delivery' ? "text-luxury-gold" : "text-[#8E9F97]")} />
+                <Truck className={cn("w-5 h-5 mb-1.5", deliveryType === 'delivery' ? "text-[#FAE9D7]" : "text-[#A0AEC0]")} />
                 <span className="font-bold text-xs">Kuryer orqali</span>
                 <span className="text-[10px] text-emerald-400 mt-0.5">Toshkent bo‘ylab</span>
               </button>
@@ -174,10 +172,10 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
               <select
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
-                className="w-full bg-[#07100D] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-luxury-gold"
+                className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#FAE9D7]"
               >
                 {RAFFINI_BRANCHES.map((b) => (
-                  <option key={b.id} value={b.name} className="bg-[#0b1713] text-white">
+                  <option key={b.id} value={b.name} className="bg-[#1A1F33] text-white">
                     {b.name} — {b.landmark} ({b.workHours})
                   </option>
                 ))}
@@ -193,7 +191,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={2}
-                className="w-full bg-[#07100D] border border-white/10 rounded-xl p-3 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold"
+                className="w-full bg-[#141928] border border-white/10 rounded-xl p-3 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
               />
             </div>
           )}
@@ -210,9 +208,9 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   placeholder="Ismingizni kiriting"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-[#07100D] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold"
+                  className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
                 />
-                <UserIcon className="w-4 h-4 text-luxury-gold absolute left-3 top-3" />
+                <UserIcon className="w-4 h-4 text-[#FAE9D7] absolute left-3 top-3" />
               </div>
             </div>
 
@@ -226,9 +224,9 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   placeholder="+998 90 123 45 67"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#07100D] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold font-mono"
+                  className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2.5 pl-9 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7] font-mono"
                 />
-                <Phone className="w-4 h-4 text-luxury-gold absolute left-3 top-3" />
+                <Phone className="w-4 h-4 text-[#FAE9D7] absolute left-3 top-3" />
               </div>
             </div>
           </div>
@@ -254,8 +252,8 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
                   className={cn(
                     "py-2.5 px-2 rounded-xl border text-center font-bold text-xs transition-all",
                     paymentMethod === p.id
-                      ? "bg-luxury-gold text-[#091310] border-luxury-gold shadow-gold-glow"
-                      : "bg-luxury-card border-white/5 text-white/80"
+                      ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] shadow-gold-glow"
+                      : "bg-[#141928] border-white/5 text-white/80"
                   )}
                 >
                   {p.label}
@@ -274,7 +272,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
               placeholder="Masalan: Qo‘ng‘iroq qilib kelinsin"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-[#07100D] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-[#141928] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
             />
           </div>
 
@@ -283,7 +281,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-gold-glow hover:brightness-105 active:scale-[0.98] transition disabled:opacity-50"
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-gold-glow hover:brightness-105 active:scale-[0.98] transition disabled:opacity-50"
             >
               {isSubmitting ? (
                 <span>Yuborilmoqda...</span>
@@ -297,4 +295,3 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
     </div>
   );
 }
-

@@ -22,12 +22,12 @@ export function initTelegramApp() {
     try {
       tg.ready();
       tg.expand();
-      // Set header color to match our luxury dark emerald theme
+      // Set header color to match the original Raffini logo navy (#1A1F33)
       if (tg.setHeaderColor) {
-        tg.setHeaderColor('#0A1612');
+        tg.setHeaderColor('#1A1F33');
       }
       if (tg.setBackgroundColor) {
-        tg.setBackgroundColor('#0A1612');
+        tg.setBackgroundColor('#0D1017');
       }
     } catch (e) {
       console.warn('Telegram WebApp init error:', e);
@@ -71,4 +71,3 @@ export function sendTelegramData(data: any) {
     tg.sendData(typeof data === 'string' ? data : JSON.stringify(data));
   }
 }
-

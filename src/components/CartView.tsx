@@ -43,11 +43,11 @@ export function CartView({ onCheckout }: CartViewProps) {
   if (cart.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-        <div className="w-20 h-20 rounded-full bg-luxury-card border border-luxury-gold/25 flex items-center justify-center text-luxury-gold mb-4 shadow-luxury">
-          <ShoppingBag className="w-10 h-10 opacity-70" />
+        <div className="w-20 h-20 rounded-2xl bg-[#1A1F33] border border-[#FAE9D7]/25 flex items-center justify-center text-[#FAE9D7] mb-4 shadow-luxury">
+          <ShoppingBag className="w-10 h-10 opacity-80" />
         </div>
         <h2 className="text-xl font-serif font-bold text-white">Savatingiz bo‘sh</h2>
-        <p className="text-xs text-[#8E9F97] mt-2 max-w-xs leading-relaxed">
+        <p className="text-xs text-[#A0AEC0] mt-2 max-w-xs leading-relaxed">
           Raffini yangi erkaklar kolleksiyasidan o‘zingizga yoqqan liboslarni tanlang va savatga qo‘shing.
         </p>
         <button
@@ -55,7 +55,7 @@ export function CartView({ onCheckout }: CartViewProps) {
             triggerHaptic('light');
             setActiveTab('catalog');
           }}
-          className="mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-bold text-xs uppercase tracking-wider shadow-gold-glow"
+          className="mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] font-black text-xs uppercase tracking-wider shadow-gold-glow"
         >
           Katalogni ko‘rish
         </button>
@@ -71,7 +71,7 @@ export function CartView({ onCheckout }: CartViewProps) {
       <div className="flex items-center justify-between pb-3 border-b border-white/5">
         <div>
           <h1 className="text-lg font-serif font-bold text-white">Savat</h1>
-          <span className="text-[11px] text-luxury-gold">{cart.length} xil mahsulot</span>
+          <span className="text-[11px] text-[#FAE9D7]">{cart.length} xil mahsulot</span>
         </div>
         <button
           onClick={() => {
@@ -90,7 +90,7 @@ export function CartView({ onCheckout }: CartViewProps) {
         {cart.map((item, idx) => (
           <div key={`${item.product.id}-${item.selectedSize}-${item.selectedColor}-${idx}`} className="py-3.5 flex gap-3">
             {/* Image */}
-            <div className="relative w-20 h-24 rounded-xl overflow-hidden bg-[#0d1814] border border-white/10 flex-shrink-0">
+            <div className="relative w-20 h-24 rounded-xl overflow-hidden bg-[#141928] border border-white/10 flex-shrink-0">
               <Image
                 src={item.product.images[0] || '/images/logo.png'}
                 alt={item.product.title}
@@ -107,10 +107,10 @@ export function CartView({ onCheckout }: CartViewProps) {
                     {item.product.title}
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px] bg-luxury-card px-2 py-0.5 rounded border border-luxury-gold/20 text-luxury-gold font-bold">
+                    <span className="text-[10px] bg-[#1A1F33] px-2 py-0.5 rounded border border-[#FAE9D7]/20 text-[#FAE9D7] font-bold">
                       {item.selectedSize}
                     </span>
-                    <span className="text-[10px] text-[#8E9F97] truncate max-w-[110px]">
+                    <span className="text-[10px] text-[#A0AEC0] truncate max-w-[110px]">
                       {item.selectedColor}
                     </span>
                   </div>
@@ -118,7 +118,7 @@ export function CartView({ onCheckout }: CartViewProps) {
 
                 <button
                   onClick={() => removeFromCart(item.product.id, item.selectedSize, item.selectedColor)}
-                  className="text-[#6D7D76] hover:text-rose-400 p-1"
+                  className="text-[#718096] hover:text-rose-400 p-1"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -126,16 +126,16 @@ export function CartView({ onCheckout }: CartViewProps) {
 
               {/* Price & Quantity Controls */}
               <div className="flex items-center justify-between mt-2">
-                <span className="text-xs font-bold text-luxury-gold">
+                <span className="text-xs font-bold text-[#FAE9D7]">
                   {formatUZS(item.product.price * item.quantity)}
                 </span>
 
-                <div className="flex items-center bg-luxury-card border border-luxury-gold/20 rounded-lg px-1.5 h-7">
+                <div className="flex items-center bg-[#1A1F33] border border-[#FAE9D7]/20 rounded-lg px-1.5 h-7">
                   <button
                     onClick={() =>
                       updateQuantity(item.product.id, item.selectedSize, item.selectedColor, item.quantity - 1)
                     }
-                    className="w-5 h-5 flex items-center justify-center text-luxury-gold"
+                    className="w-5 h-5 flex items-center justify-center text-[#FAE9D7]"
                   >
                     <Minus className="w-3 h-3" />
                   </button>
@@ -146,7 +146,7 @@ export function CartView({ onCheckout }: CartViewProps) {
                     onClick={() =>
                       updateQuantity(item.product.id, item.selectedSize, item.selectedColor, item.quantity + 1)
                     }
-                    className="w-5 h-5 flex items-center justify-center text-luxury-gold"
+                    className="w-5 h-5 flex items-center justify-center text-[#FAE9D7]"
                   >
                     <Plus className="w-3 h-3" />
                   </button>
@@ -158,9 +158,9 @@ export function CartView({ onCheckout }: CartViewProps) {
       </div>
 
       {/* Promocode Block */}
-      <div className="mt-5 p-3.5 rounded-2xl bg-luxury-card/60 border border-luxury-gold/20">
+      <div className="mt-5 p-3.5 rounded-2xl bg-[#1A1F33] border border-[#FAE9D7]/20">
         <div className="flex items-center gap-2 mb-2">
-          <Tag className="w-3.5 h-3.5 text-luxury-gold" />
+          <Tag className="w-3.5 h-3.5 text-[#FAE9D7]" />
           <span className="text-xs font-semibold text-white">Promokod bormi?</span>
         </div>
         <div className="flex gap-2">
@@ -169,11 +169,11 @@ export function CartView({ onCheckout }: CartViewProps) {
             placeholder="Masalan: RAFFINI"
             value={promoInput}
             onChange={(e) => setPromoInput(e.target.value)}
-            className="flex-1 bg-[#091310] border border-white/10 rounded-xl px-3 py-2 text-xs text-white uppercase placeholder:normal-case placeholder:text-[#5E6E67] focus:outline-none focus:border-luxury-gold"
+            className="flex-1 bg-[#0D1017] border border-white/10 rounded-xl px-3 py-2 text-xs text-white uppercase placeholder:normal-case placeholder:text-[#5E6E67] focus:outline-none focus:border-[#FAE9D7]"
           />
           <button
             onClick={handleApplyPromo}
-            className="px-4 py-2 rounded-xl bg-luxury-gold/20 text-luxury-gold border border-luxury-gold/40 text-xs font-bold hover:bg-luxury-gold hover:text-[#091310] transition"
+            className="px-4 py-2 rounded-xl bg-[#FAE9D7]/20 text-[#FAE9D7] border border-[#FAE9D7]/40 text-xs font-bold hover:bg-[#FAE9D7] hover:text-[#1A1F33] transition"
           >
             Qo‘llash
           </button>
@@ -191,8 +191,8 @@ export function CartView({ onCheckout }: CartViewProps) {
       </div>
 
       {/* Order Summary */}
-      <div className="mt-4 p-4 rounded-2xl bg-luxury-card border border-white/5 space-y-2.5 text-xs">
-        <div className="flex justify-between text-[#8E9F97]">
+      <div className="mt-4 p-4 rounded-2xl bg-[#1A1F33] border border-white/5 space-y-2.5 text-xs">
+        <div className="flex justify-between text-[#A0AEC0]">
           <span>Mahsulotlar narxi:</span>
           <span className="text-white font-medium">{formatUZS(rawTotal)}</span>
         </div>
@@ -202,33 +202,33 @@ export function CartView({ onCheckout }: CartViewProps) {
             <span className="font-semibold">-{formatUZS(discountAmount)}</span>
           </div>
         )}
-        <div className="flex justify-between text-[#8E9F97]">
+        <div className="flex justify-between text-[#A0AEC0]">
           <span>Yetkazib berish (Toshkent):</span>
           <span className="text-emerald-400 font-medium">Bepul (Filial/Kuryer)</span>
         </div>
         <div className="pt-2.5 border-t border-white/10 flex justify-between items-baseline">
           <span className="text-sm font-bold text-white font-serif">Jami to‘lov:</span>
-          <span className="text-base font-black text-luxury-gold font-serif">
+          <span className="text-base font-black text-[#FAE9D7] font-serif">
             {formatUZS(cartTotal)}
           </span>
         </div>
       </div>
 
       {/* Trust banner */}
-      <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-[#788880]">
-        <ShieldCheck className="w-3.5 h-3.5 text-luxury-gold" />
+      <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-[#718096]">
+        <ShieldCheck className="w-3.5 h-3.5 text-[#FAE9D7]" />
         <span>100% original Raffini brend mahsulotlari</span>
       </div>
 
       {/* Sticky Checkout CTA */}
-      <div className="fixed bottom-16 left-0 right-0 z-30 bg-[#091310]/95 backdrop-blur-md border-t border-luxury-gold/20 p-4">
+      <div className="fixed bottom-16 left-0 right-0 z-30 bg-[#1A1F33]/95 backdrop-blur-md border-t border-[#FAE9D7]/20 p-4">
         <div className="max-w-md mx-auto">
           <button
             onClick={() => {
               triggerHaptic('medium');
               onCheckout();
             }}
-            className="w-full h-12 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-gold-glow hover:brightness-105 active:scale-[0.99] transition"
+            className="w-full h-12 rounded-xl bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-gold-glow hover:brightness-105 active:scale-[0.99] transition"
           >
             <span>Rasmiylashtirish</span>
             <ArrowRight className="w-4 h-4" />
@@ -238,4 +238,3 @@ export function CartView({ onCheckout }: CartViewProps) {
     </div>
   );
 }
-

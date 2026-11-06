@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SlidersHorizontal, ArrowUpDown, Filter, X, Check } from 'lucide-react';
+import Image from 'next/image';
+import { SlidersHorizontal, Heart, Star, X, Check, ArrowUpDown } from 'lucide-react';
 import { RAFFINI_PRODUCTS, CATEGORIES } from '@/data/products';
-import { ProductCard } from '@/components/ProductCard';
+import { useStore } from '@/context/StoreContext';
+import { formatUZS, cn } from '@/lib/utils';
 import { triggerHaptic } from '@/lib/telegram';
-import { cn } from '@/lib/utils';
 
 export function CatalogView() {
+  const { setSelectedProduct, isWishlisted, toggleWishlist } = useStore();
   const [selectedCategory, setSelectedCategory] = useState('Barchasi');
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc' | 'rating'>('default');
@@ -44,10 +46,10 @@ export function CatalogView() {
               setSelectedCategory(cat);
             }}
             className={cn(
-              "px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border",
+              "px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border",
               selectedCategory === cat
-                ? "bg-luxury-gold text-[#091310] border-luxury-gold shadow-gold-glow"
-                : "bg-luxury-card text-[#8E9F97] border-white/5 hover:text-white"
+                ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] shadow-gold-glow font-bold scale-105"
+                : "bg-[#1A1F33] text-[#8E9BAE] border-white/5 hover:text-white"
             )}
           >
             {cat}
@@ -56,11 +58,11 @@ export function CatalogView() {
       </div>
 
       {/* Info & Count Bar */}
-      <div className="flex items-center justify-between my-3 text-xs text-[#7A8A82]">
+      <div className="flex items-center justify-between my-3 text-xs text-[#8E9BAE]">
         <span className="font-medium text-white/90">
           {products.length} ta mahsulot
           {selectedSize && (
-            <span className="ml-1 text-luxury-gold font-bold">• O‘lcham: {selectedSize}</span>
+            <span className="ml-1 text-[#FAE9D7] font-bold">• O‘lcham: {selectedSize}</span>
           )}
         </span>
 
@@ -69,24 +71,86 @@ export function CatalogView() {
             triggerHaptic('light');
             setIsFilterModalOpen(true);
           }}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-luxury-card border border-luxury-gold/25 text-luxury-gold text-[11px] font-semibold hover:border-luxury-gold transition"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1A1F33] border border-[#FAE9D7]/30 text-[#FAE9D7] text-xs font-semibold hover:border-[#FAE9D7] transition shadow-sm"
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
           Filtr & Saralash
         </button>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-2 gap-3">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      {/* Editorial High-Fashion Product Grid */}
+      <div className="grid grid-cols-2 gap-3.5">
+        {products.map((product) => {
+          const liked = isWishlisted(product.id);
+          const mainImage = product.images[0] || '/images/logo.png';
+
+          return (
+            <div
+              key={product.id}
+              onClick={() => {
+                triggerHaptic('light');
+                setSelectedProduct(product);
+              }}
+              className="group relative flex flex-col justify-between cursor-pointer transition-transform active:scale-[0.98]"
+            >
+              {/* Rounded image card with corner price pill */}
+              <div className="relative w-full aspect-[4/5] rounded-[24px] overflow-hidden bg-[#161B2C] border border-[#FAE9D7]/15 group-hover:border-[#FAE9D7]/40 transition-all duration-300 shadow-luxury">
+                <Image
+                  src={mainImage}
+                  alt={product.title}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 300px"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating Heart Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(product.id);
+                  }}
+                  className={cn(
+                    "absolute top-3 right-3 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all",
+                    liked
+                      ? "bg-rose-500 text-white shadow-md scale-110"
+                      : "bg-black/50 text-white/80 hover:text-white border border-white/10"
+                  )}
+                >
+                  <Heart className={cn("w-3.5 h-3.5", liked && "fill-white")} />
+                </button>
+
+                {/* Corner Floating Price Pill */}
+                <div className="absolute bottom-3 right-3 bg-[#1A1F33]/90 backdrop-blur-md border border-[#FAE9D7]/30 text-[#FAE9D7] text-[11px] font-black px-2.5 py-1 rounded-full shadow-floating-pill">
+                  {formatUZS(product.price)}
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="mt-2 px-1">
+                <h3 className="text-white text-xs font-semibold line-clamp-1 group-hover:text-[#FAE9D7] transition-colors">
+                  {product.title}
+                </h3>
+                <div className="flex items-center justify-between mt-1 text-[11px] text-[#8E9BAE]">
+                  <span className="text-[10px] uppercase tracking-wider text-[#A0AEC0] truncate max-w-[95px]">
+                    {product.category}
+                  </span>
+                  <div className="flex items-center gap-1 text-[#FAE9D7]">
+                    <Star className="w-3 h-3 fill-[#FAE9D7]" />
+                    <span className="font-bold text-white text-[11px]">{product.rating}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Filter Modal Drawer */}
       {isFilterModalOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-[#0b1713] border border-luxury-gold/30 w-full max-w-md rounded-t-3xl p-5 text-xs shadow-2xl">
+          <div className="bg-[#1A1F33] border border-[#FAE9D7]/30 w-full max-w-md rounded-t-3xl p-5 text-xs shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <h3 className="font-serif font-bold text-white text-base">Filtr va Saralash</h3>
               <button
@@ -116,10 +180,10 @@ export function CatalogView() {
                       setSortBy(s.id);
                     }}
                     className={cn(
-                      "py-2 px-3 rounded-xl border text-xs font-medium text-left flex items-center justify-between",
+                      "py-2.5 px-3 rounded-2xl border text-xs font-medium text-left flex items-center justify-between",
                       sortBy === s.id
-                        ? "bg-luxury-gold text-[#091310] border-luxury-gold font-bold shadow-sm"
-                        : "bg-luxury-card text-white/70 border-white/5"
+                        ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] font-bold shadow-sm"
+                        : "bg-[#141928] text-white/70 border-white/5"
                     )}
                   >
                     <span>{s.label}</span>
@@ -144,7 +208,7 @@ export function CatalogView() {
                   </button>
                 )}
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {allSizes.map((size) => (
                   <button
                     key={size}
@@ -153,10 +217,10 @@ export function CatalogView() {
                       setSelectedSize(selectedSize === size ? null : size);
                     }}
                     className={cn(
-                      "min-w-[40px] h-9 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center",
+                      "min-w-[42px] h-10 px-3 rounded-2xl border text-xs font-black transition flex items-center justify-center",
                       selectedSize === size
-                        ? "bg-luxury-gold text-[#091310] border-luxury-gold shadow-gold-glow"
-                        : "bg-luxury-card text-white/80 border-white/5"
+                        ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] shadow-gold-glow"
+                        : "bg-[#141928] text-white/80 border-white/5"
                     )}
                   >
                     {size}
@@ -172,7 +236,7 @@ export function CatalogView() {
                   triggerHaptic('light');
                   setIsFilterModalOpen(false);
                 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-bold text-xs uppercase tracking-wider shadow-gold-glow"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#FAE9D7] to-[#E5C49F] text-[#1A1F33] font-black text-xs uppercase tracking-wider shadow-gold-glow"
               >
                 Natijalarni ko‘rish ({products.length} ta)
               </button>
@@ -183,4 +247,3 @@ export function CatalogView() {
     </div>
   );
 }
-

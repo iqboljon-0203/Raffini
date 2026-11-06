@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { Search, ArrowRight, Sparkles, MapPin, ShieldCheck, Flame, Percent } from 'lucide-react';
+import { Search, SlidersHorizontal, Bell, Heart, Star, Sparkles, MapPin, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { RAFFINI_PRODUCTS, CATEGORIES } from '@/data/products';
-import { ProductCard } from '@/components/ProductCard';
 import { useStore } from '@/context/StoreContext';
+import { formatUZS, cn } from '@/lib/utils';
 import { triggerHaptic } from '@/lib/telegram';
 
 interface HomeViewProps {
@@ -14,180 +14,212 @@ interface HomeViewProps {
 }
 
 export function HomeView({ onSearchClick, onBranchesClick }: HomeViewProps) {
-  const { setActiveTab, setSelectedProduct } = useStore();
+  const { telegramUser, setActiveTab, setSelectedProduct, isWishlisted, toggleWishlist } = useStore();
+  const [selectedCat, setSelectedCat] = useState('Barchasi');
 
-  const trendingProducts = RAFFINI_PRODUCTS.filter((p) => p.isTrending).slice(0, 6);
-  const newArrivals = RAFFINI_PRODUCTS.slice(0, 8);
+  const userName = telegramUser ? telegramUser.first_name : 'Fashion Lover';
 
-  const heroImage = RAFFINI_PRODUCTS[0]?.images[0] || '/images/logo.png';
+  // Story highlights (Instagram / TMA style interactive circles with gradient rings)
+  const stories = [
+    { id: 'new', title: 'New Look', img: '/images/products/prod_1.jpg', tag: 'Kurtkalar & Vitirovka' },
+    { id: 'shoes', title: 'Poyabzal', img: '/images/products/prod_10.jpg', tag: 'Oyoq kiyimlar' },
+    { id: 'suits', title: 'Kostyum', img: '/images/products/prod_20.jpg', tag: 'Kostyumlar' },
+    { id: 'branches', title: '11 Filial', img: '/images/logo.png', isBranch: true },
+    { id: 'sweaters', title: 'Sviter', img: '/images/products/prod_15.jpg', tag: 'Sviter & Kardigan' },
+  ];
+
+  const filteredProducts = RAFFINI_PRODUCTS.filter(
+    (p) => selectedCat === 'Barchasi' || p.category === selectedCat
+  );
 
   return (
-    <div className="max-w-md mx-auto px-4 pb-32 pt-2 space-y-6">
-      {/* Search Input Trigger */}
-      <div
-        onClick={() => {
-          triggerHaptic('light');
-          onSearchClick();
-        }}
-        className="flex items-center gap-2.5 p-3 rounded-2xl bg-luxury-card border border-luxury-gold/20 text-[#7D8F86] text-xs cursor-pointer hover:border-luxury-gold/40 transition shadow-sm"
-      >
-        <Search className="w-4 h-4 text-luxury-gold flex-shrink-0" />
-        <span className="flex-1">Kurtka, kostyum, poyabzal qidirish...</span>
-      </div>
-
-      {/* Luxury Hero Banner */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0d261e] via-[#113328] to-[#0b211a] border border-luxury-gold/30 shadow-luxury p-5 min-h-[170px] flex items-center justify-between">
-        {/* Glow effect */}
-        <div className="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-luxury-gold/15 blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-[62%]">
-          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-luxury-gold/20 text-luxury-gold text-[9px] font-bold tracking-wider uppercase mb-2 border border-luxury-gold/30">
-            <Sparkles className="w-2.5 h-2.5 fill-luxury-gold" />
-            Yangi Mavsum 2026
+    <div className="max-w-md mx-auto px-4 pb-32 pt-2 space-y-5">
+      {/* 1. Header Greeting & Notification Bell (as in screen 2) */}
+      <div className="flex items-center justify-between pt-1">
+        <div className="flex items-center gap-2.5">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#FAE9D7]/30 bg-[#1A1F33]">
+            {telegramUser?.photo_url ? (
+              <Image src={telegramUser.photo_url} alt={userName} fill className="object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-[#FAE9D7] font-serif font-black text-sm">
+                {userName.charAt(0)}
+              </div>
+            )}
           </div>
-          <h2 className="text-lg font-serif font-bold text-white leading-tight">
-            Elegance & <br />
-            <span className="text-luxury-gold">Premium Style</span>
-          </h2>
-          <p className="text-[11px] text-[#A2B6AD] mt-1 font-light">
-            Eksklyuziv erkaklar liboslari
-          </p>
-          <button
-            onClick={() => {
-              triggerHaptic('medium');
-              setActiveTab('catalog');
-            }}
-            className="mt-3.5 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-luxury-gold to-[#f0ce78] text-[#091310] font-extrabold text-[11px] uppercase tracking-wider shadow-gold-glow hover:brightness-105 active:scale-95 transition"
-          >
-            <span>Xarid qilish</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <div>
+            <span className="text-[11px] text-[#8E9BAE] block leading-none">
+              Hello! 👋
+            </span>
+            <span className="text-sm font-bold text-white font-serif mt-0.5 block">
+              {userName}
+            </span>
+          </div>
         </div>
 
-        {/* Hero Product Cutout Image */}
-        <div className="relative w-32 h-36 rounded-2xl overflow-hidden border border-luxury-gold/30 shadow-2xl flex-shrink-0">
-          <Image
-            src={heroImage}
-            alt="Hero Fashion"
-            fill
-            className="object-cover object-top"
-            priority
-          />
-        </div>
+        <button
+          onClick={() => {
+            triggerHaptic('light');
+            onBranchesClick();
+          }}
+          className="relative w-10 h-10 rounded-full bg-[#1A1F33] border border-[#FAE9D7]/20 flex items-center justify-center text-[#FAE9D7] hover:border-[#FAE9D7] transition shadow-sm"
+          title="11 Filial Toshkent"
+        >
+          <MapPin className="w-4 h-4" />
+          <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-[#FAE9D7] animate-ping" />
+        </button>
       </div>
 
-      {/* Quick Category Chips */}
+      {/* 2. Editorial Headline (Exact match from reference screen 2) */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-serif font-bold text-white">Kategoriyalar</h3>
+        <h1 className="text-2xl sm:text-3xl font-serif font-black text-white leading-tight">
+          Tailored Trends, <br />
+          <span className="italic text-[#FAE9D7]">Handpicked for you.</span>
+        </h1>
+      </div>
+
+      {/* 3. Interactive Story Highlights with animated gradient rings */}
+      <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar pt-1">
+        {stories.map((story) => (
           <button
+            key={story.id}
             onClick={() => {
-              triggerHaptic('light');
-              setActiveTab('catalog');
+              triggerHaptic('selection');
+              if (story.isBranch) {
+                onBranchesClick();
+              } else if (story.tag) {
+                setSelectedCat(story.tag);
+              }
             }}
-            className="text-[11px] text-luxury-gold font-semibold hover:underline"
+            className="flex flex-col items-center flex-shrink-0 group active:scale-95 transition-transform"
           >
-            Barchasi →
+            <div className="relative w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#FAE9D7] via-[#E5C49F] to-[#1A1F33] group-hover:shadow-gold-glow transition-all">
+              <div className="relative w-full h-full rounded-full overflow-hidden bg-[#1A1F33] border-2 border-[#0C0F17]">
+                <Image src={story.img} alt={story.title} fill className="object-cover" />
+              </div>
+            </div>
+            <span className="text-[10px] text-[#A0AEC0] group-hover:text-[#FAE9D7] font-medium mt-1.5 truncate max-w-[64px]">
+              {story.title}
+            </span>
           </button>
+        ))}
+      </div>
+
+      {/* 4. Minimalist Pill Search Bar with Filter Button (Reference screen 2) */}
+      <div className="flex items-center gap-2.5">
+        <div
+          onClick={() => {
+            triggerHaptic('light');
+            onSearchClick();
+          }}
+          className="flex-1 h-12 rounded-full bg-[#1A1F33] border border-[#FAE9D7]/20 px-4 flex items-center gap-2.5 text-[#8E9BAE] text-xs cursor-pointer hover:border-[#FAE9D7]/40 transition shadow-sm"
+        >
+          <Search className="w-4 h-4 text-[#FAE9D7] flex-shrink-0" />
+          <span className="flex-1 font-light">Search luxury fashion...</span>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {CATEGORIES.slice(1).map((cat, idx) => (
+        <button
+          onClick={() => {
+            triggerHaptic('light');
+            onSearchClick();
+          }}
+          className="w-12 h-12 rounded-full bg-[#FAE9D7] text-[#1A1F33] flex items-center justify-center hover:brightness-110 active:scale-95 transition shadow-gold-glow flex-shrink-0"
+        >
+          <SlidersHorizontal className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* 5. Category Slider (All, Jackets, Suits, Shoes, etc.) */}
+      <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {CATEGORIES.map((cat) => {
+          const isActive = selectedCat === cat;
+          return (
             <button
-              key={idx}
+              key={cat}
               onClick={() => {
                 triggerHaptic('selection');
-                setActiveTab('catalog');
+                setSelectedCat(cat);
               }}
-              className="px-3.5 py-2 rounded-xl bg-luxury-card border border-white/5 hover:border-luxury-gold/30 text-white/90 text-xs font-medium whitespace-nowrap transition flex items-center gap-1.5 active:scale-95"
+              className={cn(
+                "px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border",
+                isActive
+                  ? "bg-[#FAE9D7] text-[#1A1F33] border-[#FAE9D7] shadow-gold-glow font-bold scale-105"
+                  : "bg-[#1A1F33] text-[#8E9BAE] border-white/5 hover:text-white"
+              )}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
               {cat}
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* VIP Promocode Banner */}
-      <div className="p-3.5 rounded-2xl bg-gradient-to-r from-luxury-card to-[#152e24] border border-luxury-gold/25 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-luxury-gold/20 border border-luxury-gold/30 flex items-center justify-center text-luxury-gold flex-shrink-0">
-            <Percent className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-white">VIP Chegirma</span>
-              <span className="text-[10px] bg-luxury-gold text-[#091310] font-extrabold px-1.5 py-0.2 rounded font-mono">
-                RAFFINI
-              </span>
+      {/* 6. High-Fashion Editorial Product Grid (Reference screen 2) */}
+      <div className="grid grid-cols-2 gap-3.5 pt-1">
+        {filteredProducts.map((product) => {
+          const liked = isWishlisted(product.id);
+          const mainImage = product.images[0] || '/images/logo.png';
+
+          return (
+            <div
+              key={product.id}
+              onClick={() => {
+                triggerHaptic('light');
+                setSelectedProduct(product);
+              }}
+              className="group relative flex flex-col justify-between cursor-pointer transition-transform active:scale-[0.98]"
+            >
+              {/* Image card with rounded corners & floating corner price pill */}
+              <div className="relative w-full aspect-[4/5] rounded-[24px] overflow-hidden bg-[#161B2C] border border-[#FAE9D7]/15 group-hover:border-[#FAE9D7]/40 transition-all duration-300 shadow-luxury">
+                <Image
+                  src={mainImage}
+                  alt={product.title}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 300px"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating Heart Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(product.id);
+                  }}
+                  className={cn(
+                    "absolute top-3 right-3 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all",
+                    liked
+                      ? "bg-rose-500 text-white shadow-md scale-110"
+                      : "bg-black/50 text-white/80 hover:text-white border border-white/10"
+                  )}
+                >
+                  <Heart className={cn("w-3.5 h-3.5", liked && "fill-white")} />
+                </button>
+
+                {/* Corner Floating Price Pill (Exact match to reference screen 2) */}
+                <div className="absolute bottom-3 right-3 bg-[#1A1F33]/90 backdrop-blur-md border border-[#FAE9D7]/30 text-[#FAE9D7] text-[11px] font-black px-2.5 py-1 rounded-full shadow-floating-pill">
+                  {formatUZS(product.price)}
+                </div>
+              </div>
+
+              {/* Product Info below card */}
+              <div className="mt-2.5 px-1">
+                <h3 className="text-white text-xs font-semibold line-clamp-1 group-hover:text-[#FAE9D7] transition-colors">
+                  {product.title}
+                </h3>
+                <div className="flex items-center justify-between mt-1 text-[11px] text-[#8E9BAE]">
+                  <span className="text-[10px] uppercase tracking-wider text-[#A0AEC0] truncate max-w-[95px]">
+                    {product.category}
+                  </span>
+                  <div className="flex items-center gap-1 text-[#FAE9D7]">
+                    <Star className="w-3 h-3 fill-[#FAE9D7]" />
+                    <span className="font-bold text-white text-[11px]">{product.rating}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-[10px] text-[#9CB0A7] mt-0.5">
-              Savatda ushbu kodni kiriting va 10% chegirmaga ega bo‘ling!
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Trending Collection (Horizontal slider / highlights) */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5">
-            <Flame className="w-4 h-4 text-luxury-gold fill-luxury-gold" />
-            <h3 className="text-sm font-serif font-bold text-white">Trenddagi to‘plam</h3>
-          </div>
-          <button
-            onClick={() => setActiveTab('catalog')}
-            className="text-[11px] text-luxury-gold font-semibold"
-          >
-            Ko‘proq →
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {trendingProducts.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
-      </div>
-
-      {/* 11 Filial Banner */}
-      <div
-        onClick={() => {
-          triggerHaptic('medium');
-          onBranchesClick();
-        }}
-        className="p-4 rounded-2xl bg-[#0e211a] border border-luxury-gold/30 flex items-center justify-between cursor-pointer hover:border-luxury-gold/50 transition active:scale-[0.99]"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-luxury-gold/20 flex items-center justify-center text-luxury-gold">
-            <MapPin className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xs font-bold text-white block font-serif">
-              Toshkentda 11 ta Filial
-            </span>
-            <span className="text-[10px] text-emerald-400 block mt-0.5">
-              Novza, Golden Life, Yunusobod... Filiallarni ko‘rish
-            </span>
-          </div>
-        </div>
-        <ArrowRight className="w-4 h-4 text-luxury-gold" />
-      </div>
-
-      {/* New Arrivals Grid */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-serif font-bold text-white">Yangi kelganlar</h3>
-          <span className="text-[11px] text-[#7A8A82]">Raffini 2026</span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {newArrivals.slice(6, 12).map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
 }
-
