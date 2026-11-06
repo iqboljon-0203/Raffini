@@ -39,48 +39,29 @@ async function sendTelegramPhoto(
 ) {
   if (!BOT_TOKEN) return null;
 
-  // 1. Try uploading local file directly via multipart FormData (Works offline / localhost / production)
-  try {
-    const localRelPath = photoPathOrUrl.startsWith('/') ? photoPathOrUrl.slice(1) : photoPathOrUrl;
-    const fullLocalPath = path.join(process.cwd(), localRelPath);
-    if (fs.existsSync(fullLocalPath)) {
-      const fileBuffer = fs.readFileSync(fullLocalPath);
-      const blob = new Blob([fileBuffer]);
-      const formData = new FormData();
-      formData.append('chat_id', String(chatId));
-      formData.append('photo', blob, 'welcome.jpg');
-      if (caption) {
-        formData.append('caption', caption);
-        formData.append('parse_mode', 'HTML');
-      }
-      if (replyMarkup) {
-        formData.append('reply_markup', JSON.stringify(replyMarkup));
-      }
-
-      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.ok) return data;
-      console.warn('sendPhoto multipart response not ok:', data);
-    }
-  } catch (err) {
-    console.warn('Local photo upload failed, attempting URL method:', err);
+  // Clean the path for public URL: strip leading "public/" or "/public/"
+  let cleanPath = photoPathOrUrl.trim();
+  if (cleanPath.startsWith('/public/')) {
+    cleanPath = cleanPath.slice(7); // starts with "/"
+  } else if (cleanPath.startsWith('public/')) {
+    cleanPath = cleanPath.slice(6); // starts with "/"
+  }
+  if (!cleanPath.startsWith('/') && !cleanPath.startsWith('http')) {
+    cleanPath = '/' + cleanPath;
   }
 
-  // 2. Fallback: Send public URL
-  try {
-    const photoUrl = photoPathOrUrl.startsWith('http')
-      ? photoPathOrUrl
-      : `${WEBAPP_URL}${photoPathOrUrl.startsWith('/') ? '' : '/'}${photoPathOrUrl}`;
+  const publicPhotoUrl = cleanPath.startsWith('http')
+    ? cleanPath
+    : `${WEBAPP_URL}${cleanPath}`;
 
+  // 1. Primary method on Vercel / Production: send public image URL directly to Telegram
+  try {
     const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: chatId,
-        photo: photoUrl,
+        photo: publicPhotoUrl,
         caption,
         parse_mode: 'HTML',
         reply_markup: replyMarkup,
@@ -88,11 +69,48 @@ async function sendTelegramPhoto(
     });
     const data = await res.json();
     if (data.ok) return data;
+    console.warn('sendTelegramPhoto by URL failed:', data);
   } catch (err) {
-    console.warn('URL sendPhoto failed:', err);
+    console.warn('sendTelegramPhoto by URL error:', err);
   }
 
-  // 3. Fallback: If Telegram photo methods fail, send message with caption
+  // 2. Secondary fallback: Local file multipart upload (for local dev or if URL fails)
+  try {
+    const rel = photoPathOrUrl.startsWith('/') ? photoPathOrUrl.slice(1) : photoPathOrUrl;
+    const candidates = [
+      path.join(process.cwd(), rel),
+      path.join(process.cwd(), 'public', rel.replace(/^public\//, '')),
+      path.join(process.cwd(), 'public/images/bot_welcome.jpg'),
+    ];
+    for (const fullPath of candidates) {
+      if (fs.existsSync(fullPath)) {
+        const fileBuffer = fs.readFileSync(fullPath);
+        const blob = new Blob([fileBuffer]);
+        const formData = new FormData();
+        formData.append('chat_id', String(chatId));
+        formData.append('photo', blob, 'bot_welcome.jpg');
+        if (caption) {
+          formData.append('caption', caption);
+          formData.append('parse_mode', 'HTML');
+        }
+        if (replyMarkup) {
+          formData.append('reply_markup', JSON.stringify(replyMarkup));
+        }
+
+        const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await res.json();
+        if (data.ok) return data;
+        console.warn('sendTelegramPhoto multipart failed:', data);
+      }
+    }
+  } catch (err) {
+    console.warn('sendTelegramPhoto multipart error:', err);
+  }
+
+  // 3. Fallback: If Telegram photo methods fail, send text message with caption
   if (caption) {
     return await sendTelegramMessage(chatId, caption, replyMarkup);
   }
@@ -222,7 +240,7 @@ Do‘konni ochish uchun quyidagi <b>"🛍 Do‘konni ochish"</b> tugmasini bosin
           ],
         };
 
-        await sendTelegramPhoto(chatId, 'public/images/bot_welcome.jpg', welcomeText, keyboard);
+        await sendTelegramPhoto(chatId, '/images/bot_welcome.jpg', welcomeText, keyboard);
         return NextResponse.json({ ok: true });
       }
 
