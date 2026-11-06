@@ -36,7 +36,10 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
   return (
     <div className="fixed bottom-4 left-0 right-0 z-40 px-3 sm:px-4 pointer-events-none flex justify-center pb-[env(safe-area-inset-bottom)]">
       {/* Ultra-Luxury Obsidian Floating Dock */}
-      <nav className="pointer-events-auto relative px-2.5 py-1.5 bg-[#1A1F33]/96 backdrop-blur-2xl rounded-full border border-[#FAE9D7]/30 shadow-[0_20px_50px_rgba(26,31,51,0.42),0_0_25px_rgba(250,233,215,0.08)] flex items-center justify-between gap-1 w-full max-w-[395px] select-none before:absolute before:inset-x-8 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[#FAE9D7]/40 before:to-transparent">
+      <nav
+        style={{ backgroundColor: '#1A1F33' }}
+        className="pointer-events-auto relative px-3 py-2 bg-[#1A1F33] text-white rounded-full border border-[#FAE9D7]/30 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_25px_rgba(250,233,215,0.08)] flex items-center justify-between gap-1 w-full max-w-[395px] select-none before:absolute before:inset-x-8 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[#FAE9D7]/40 before:to-transparent"
+      >
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
           const Icon = item.icon;
@@ -55,7 +58,7 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
               aria-label={item.label}
               className={cn(
                 "relative flex items-center justify-center rounded-full transition-all duration-300 active:scale-95 group",
-                isActive ? "px-3.5 py-2" : "p-2.5 hover:bg-white/5"
+                isActive ? "px-3.5 py-2" : "p-2.5 hover:bg-white/10"
               )}
             >
               {/* Animated Liquid Active Capsule */}
@@ -74,7 +77,7 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
                     "transition-all duration-200",
                     isActive
                       ? "w-4.5 h-4.5 text-[#1A1F33] stroke-[2.4]"
-                      : "w-5 h-5 text-white/60 group-hover:text-white stroke-[1.8]"
+                      : "w-5 h-5 text-white/75 group-hover:text-white stroke-[2]"
                   )}
                 />
 
