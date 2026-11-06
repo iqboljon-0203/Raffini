@@ -33,7 +33,7 @@ export function ProfileView({ onBranchesClick, onWishlistClick }: ProfileViewPro
     : 'Telegram Web App';
 
   return (
-    <div className="max-w-md mx-auto px-5 pb-32 pt-2 select-none text-[#1A1F33]">
+    <div className="max-w-md mx-auto px-5 pb-40 pt-2 select-none text-[#1A1F33]">
       {/* Profile Header Card */}
       <div className="relative p-5 rounded-[28px] bg-white border border-[#1A1F33]/10 shadow-sm overflow-hidden">
         <div className="flex items-center gap-3.5">

@@ -122,26 +122,28 @@ export function InteractiveLookbook() {
                     exit={{ opacity: 0, scale: 0.9, y: isNearBottom ? -5 : 5 }}
                     transition={{ type: 'spring', damping: 20, stiffness: 300 }}
                     className={cn(
-                      "absolute left-1/2 -translate-x-1/2 w-48 p-3 rounded-2xl bg-white/98 backdrop-blur-xl border border-black/10 shadow-[0_12px_30px_rgba(0,0,0,0.22)] text-left z-30 pointer-events-auto",
-                      isNearBottom ? "bottom-11" : "top-11"
+                      "absolute left-1/2 -translate-x-1/2 w-52 p-3.5 rounded-2xl bg-white border border-black/10 shadow-[0_16px_40px_rgba(0,0,0,0.28)] text-left z-30 pointer-events-auto",
+                      isNearBottom
+                        ? "bottom-12 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white"
+                        : "top-12 before:content-[''] before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-b-white"
                     )}
                   >
-                    <span className="text-[10px] text-[#1A1F33]/60 block leading-tight">
+                    <span className="text-[10px] text-[#1A1F33]/60 font-semibold uppercase tracking-wider block leading-tight">
                       Tanlangan kiyim
                     </span>
-                    <h5 className="text-xs font-bold text-[#1A1F33] truncate mt-0.5">
+                    <h5 className="text-xs font-bold text-[#1A1F33] truncate mt-1">
                       {spot.label}
                     </h5>
-                    <span className="text-xs font-bold text-[#1A1F33] block mt-1">
+                    <span className="text-xs font-black text-[#1A1F33] block mt-0.5">
                       {formatUZS(spot.price)}
                     </span>
 
                     <button
                       onClick={() => handleOpenProduct(spot.productId)}
-                      className="mt-2.5 w-full py-2 px-3 rounded-xl bg-[#1A1F33] text-[#FAE9D7] text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 transition shadow-sm"
+                      className="mt-3 w-full py-2 px-3 rounded-xl bg-[#1A1F33] hover:bg-black text-[#FAE9D7] text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 transition shadow-sm"
                     >
                       <span>Ko‘rish</span>
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight className="w-3 h-3 stroke-[2.5]" />
                     </button>
                   </motion.div>
                 )}

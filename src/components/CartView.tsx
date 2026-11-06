@@ -79,7 +79,7 @@ export function CartView({ onCheckout }: CartViewProps) {
   const rawTotal = cartTotal + discountAmount;
 
   return (
-    <div className="max-w-md mx-auto px-5 pb-32 pt-2 select-none text-[#1A1F33]">
+    <div className="max-w-md mx-auto px-5 pb-40 pt-2 select-none text-[#1A1F33]">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[#1A1F33]/10">
         <div>
@@ -99,14 +99,14 @@ export function CartView({ onCheckout }: CartViewProps) {
       </div>
 
       {/* Cart Items List */}
-      <div className="divide-y divide-[#1A1F33]/10 mt-1">
+      <div className="space-y-3 mt-3">
         {cart.map((item, idx) => (
           <div
             key={`${item.product.id}-${item.selectedSize}-${item.selectedColor}-${idx}`}
-            className="py-4 flex gap-3.5"
+            className="p-3.5 bg-white rounded-2xl border border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex gap-3.5"
           >
             {/* Image */}
-            <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-[#ECE8E1] flex-shrink-0">
+            <div className="relative w-20 h-24 rounded-xl overflow-hidden bg-[#F5F2EB] flex-shrink-0">
               <Image
                 src={item.product.images[0] || '/images/logo.png'}
                 alt={item.product.title}

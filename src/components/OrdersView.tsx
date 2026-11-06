@@ -22,7 +22,7 @@ export function OrdersView() {
   });
 
   return (
-    <div className="max-w-md mx-auto px-5 pb-32 pt-2 select-none text-[#1A1F33]">
+    <div className="max-w-md mx-auto px-5 pb-40 pt-2 select-none text-[#1A1F33]">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[#1A1F33]/10">
         <div>

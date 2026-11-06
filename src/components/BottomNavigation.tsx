@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Home, Grid, Heart, ShoppingBag, User } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { triggerHaptic } from '@/lib/telegram';
@@ -33,9 +34,9 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
   ];
 
   return (
-    <div className="fixed bottom-4 left-0 right-0 z-40 px-4 pointer-events-none flex justify-center pb-[env(safe-area-inset-bottom)]">
-      {/* Floating Organic Curved Bottom Bar (Matching Reference Screen 2) */}
-      <nav className="pointer-events-auto h-15 px-5 bg-[#1A1F33] text-white rounded-full shadow-[0_12px_32px_rgba(0,0,0,0.35)] border border-[#FAE9D7]/20 flex items-center justify-between gap-5 sm:gap-7 backdrop-blur-xl">
+    <div className="fixed bottom-4 left-0 right-0 z-40 px-3 sm:px-4 pointer-events-none flex justify-center pb-[env(safe-area-inset-bottom)]">
+      {/* Ultra-Luxury Obsidian Floating Dock */}
+      <nav className="pointer-events-auto relative px-2.5 py-1.5 bg-[#1A1F33]/96 backdrop-blur-2xl rounded-full border border-[#FAE9D7]/30 shadow-[0_20px_50px_rgba(26,31,51,0.42),0_0_25px_rgba(250,233,215,0.08)] flex items-center justify-between gap-1 w-full max-w-[395px] select-none before:absolute before:inset-x-8 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[#FAE9D7]/40 before:to-transparent">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
           const Icon = item.icon;
@@ -53,28 +54,56 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
               }}
               aria-label={item.label}
               className={cn(
-                "relative flex items-center justify-center p-2 rounded-full transition-all duration-200 active:scale-90",
-                isActive
-                  ? "text-[#FAE9D7]"
-                  : "text-white/60 hover:text-white"
+                "relative flex items-center justify-center rounded-full transition-all duration-300 active:scale-95 group",
+                isActive ? "px-3.5 py-2" : "p-2.5 hover:bg-white/5"
               )}
             >
-              <Icon
-                className={cn(
-                  "w-5 h-5 transition-transform",
-                  isActive && "scale-110 stroke-[2.4]"
-                )}
-              />
-
-              {item.badge !== undefined && (
-                <span className="absolute -top-1 -right-1 bg-[#FAE9D7] text-[#1A1F33] text-[9px] font-black rounded-full px-1 min-w-[15px] h-[15px] flex items-center justify-center shadow-md">
-                  {item.badge}
-                </span>
-              )}
-
+              {/* Animated Liquid Active Capsule */}
               {isActive && (
-                <span className="absolute -bottom-1.5 w-1 h-1 rounded-full bg-[#FAE9D7] shadow-sm" />
+                <motion.div
+                  layoutId="activeNavTab"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  className="absolute inset-0 bg-gradient-to-r from-[#FAE9D7] to-[#F3DEC5] rounded-full shadow-[0_4px_15px_rgba(250,233,215,0.35)]"
+                />
               )}
+
+              {/* Icon & Optional Active Expanding Label */}
+              <div className="relative z-10 flex items-center gap-1.5">
+                <Icon
+                  className={cn(
+                    "transition-all duration-200",
+                    isActive
+                      ? "w-4.5 h-4.5 text-[#1A1F33] stroke-[2.4]"
+                      : "w-5 h-5 text-white/60 group-hover:text-white stroke-[1.8]"
+                  )}
+                />
+
+                {isActive && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-xs font-bold text-[#1A1F33] tracking-tight whitespace-nowrap overflow-hidden"
+                  >
+                    {item.label}
+                  </motion.span>
+                )}
+
+                {/* Badge Indicator */}
+                {item.badge !== undefined && (
+                  <span
+                    className={cn(
+                      "text-[9px] font-black rounded-full px-1 min-w-[16px] h-4 flex items-center justify-center transition-colors shadow-sm",
+                      isActive
+                        ? "bg-[#1A1F33] text-[#FAE9D7]"
+                        : "bg-[#FAE9D7] text-[#1A1F33] absolute -top-1 -right-1 animate-pulse"
+                    )}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </div>
             </button>
           );
         })}
@@ -82,3 +111,5 @@ export function BottomNavigation({ onWishlistClick }: BottomNavigationProps) {
     </div>
   );
 }
+
+export default BottomNavigation;

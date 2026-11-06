@@ -37,10 +37,10 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer group flex flex-col select-none"
+      className="cursor-pointer group flex flex-col select-none bg-white rounded-[24px] p-2.5 pb-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/[0.04] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] active:scale-[0.98] transition-all justify-between"
     >
-      {/* Product Photo Container (Reference Screen 2) */}
-      <div className="relative w-full aspect-[3/3.8] rounded-[24px] overflow-hidden bg-[#ECE8E1] transition-transform duration-300 group-hover:scale-[1.01] active:scale-[0.98]">
+      {/* Product Photo Container */}
+      <div className="relative w-full aspect-[3/3.8] rounded-[18px] overflow-hidden bg-[#F5F2EB] mb-2.5">
         <Image
           src={mainImage}
           alt={product.title}
@@ -48,30 +48,34 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
           sizes="(max-width: 768px) 50vw, 300px"
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
+
+        {/* Floating Heart Button */}
+        <button
+          onClick={handleLike}
+          aria-label="Sevimlilar"
+          className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#1A1F33] hover:text-rose-500 shadow-sm active:scale-90 transition"
+        >
+          <Heart
+            className={cn(
+              "w-3.5 h-3.5 transition-colors",
+              liked ? "fill-rose-500 text-rose-500" : "stroke-[1.8]"
+            )}
+          />
+        </button>
+
+        {product.discountPercent && product.discountPercent > 0 && (
+          <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-[#1A1F33] text-[#FAE9D7] text-[9px] font-bold tracking-wider">
+            -{product.discountPercent}%
+          </span>
+        )}
       </div>
 
-      {/* Card Meta: Price Left, Heart Right, Title Underneath */}
-      <div className="mt-2.5 px-0.5 flex flex-col">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-bold text-[#1A1F33] tracking-tight">
-            {formatUZS(product.price)}
-          </span>
-
-          <button
-            onClick={handleLike}
-            aria-label="Sevimlilar"
-            className="p-1 -mr-1 text-[#1A1F33]/60 hover:text-rose-500 active:scale-90 transition"
-          >
-            <Heart
-              className={cn(
-                "w-4 h-4 transition-colors",
-                liked ? "fill-rose-500 text-rose-500" : "stroke-[1.8]"
-              )}
-            />
-          </button>
-        </div>
-
-        <span className="text-[11px] text-[#1A1F33]/65 font-normal truncate mt-0.5">
+      {/* Card Meta */}
+      <div className="px-1 flex flex-col">
+        <span className="text-xs font-bold text-[#1A1F33] tracking-tight">
+          {formatUZS(product.price)}
+        </span>
+        <span className="text-[11px] text-[#1A1F33]/70 font-normal truncate mt-0.5">
           {product.title}
         </span>
       </div>
